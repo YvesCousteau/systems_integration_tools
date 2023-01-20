@@ -1,0 +1,22 @@
+# sender.py / Tx/Rx => Tx/Rx
+import os
+import machine
+from time import sleep
+uart = machine.UART(0, 115200)
+print(uart)
+b = None
+msg = "hello"
+while True:
+    sleep(1)
+    if uart.any():
+        b = uart.write(msg)
+        print(type(b))
+        print(b)
+        """"
+        try:
+            msg = b.decode('utf-8')
+            print(type(msg))
+            print(">>s " + msg)
+        except:
+            pass
+        """

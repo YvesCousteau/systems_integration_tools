@@ -1,0 +1,3 @@
+/home/pi/raspberry/pico/build/pioasm/CMakeFiles/rebuild_cache.dir
+/home/pi/raspberry/pico/build/pioasm/CMakeFiles/edit_cache.dir
+/home/pi/raspberry/pico/build/pioasm/CMakeFiles/pioasm.dir
