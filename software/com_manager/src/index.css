@@ -4,16 +4,25 @@
 
 /* Button */
 .btn {
-    @apply font-bold py-1 px-4 rounded-[12px] w-full;
+    @apply font-bold py-1 px-4 rounded-[12px] w-full shadow-md;
 }
 
 .btn-classic {
     @apply bg-gray-800 text-white;
 }
 
-.btn-classic:hover {
-    @apply bg-gray-700;
+.btn-close {
+    @apply bg-red-600 text-white;
 }
+
+.btn-classic:hover {
+    @apply bg-gray-900;
+}
+
+.btn-classic:active {
+    @apply bg-black;
+}
+
 /* color */
 .color-classic {
     @apply text-gray-800;
