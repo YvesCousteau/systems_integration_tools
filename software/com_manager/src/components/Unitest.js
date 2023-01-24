@@ -3,6 +3,14 @@ import Modal from "../components/Modal";
 
 export default function Unitest(props) {
     const [modal, setModal] = useState(false);
+    
+    const [server, setServer] = React.useState(null);
+    if (modal === true) {
+        console.log("efefefe");
+        fetch(props.test.api)
+            .then((res) => res.json())
+            .then((data) => setServer(data.message));
+    }
 
     return(
         <div className="rounded-[14px] shadow-md px-4 py-4 bg-gray-300 mx-auto w-60">
@@ -22,7 +30,7 @@ export default function Unitest(props) {
             open={modal} 
             setOpen={setModal}
             title={props.test.function}
-            subtitle="Here you can describe what you want with this function.">
+            subtitle={server}>
                 <p className="flex justify-center text-xl font-bold color-classic">State run :&nbsp;{props.test.state ? (<div className='text-green-700'>Actif</div>) : (<div className='text-red-700'>Inactif</div>)}</p>
                 <div className='flex px-8 pt-4'>
 

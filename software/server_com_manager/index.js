@@ -1,16 +1,16 @@
 const express = require("express")
 const path = require('path');
-//const bodyParser = require("body-parser");
+const bodyParser = require("body-parser");
 //const mongoose = require('mongoose');
 
 const PORT = process.env.PORT || 3001
 const app = express()
 
-/*
+
 app.use(bodyParser.urlencoded({
     extended: true
 }));
-*/
+
 
 /* Run Build */
 // Have Node serve the files for our built React app
@@ -18,12 +18,16 @@ app.use(bodyParser.urlencoded({
 
 // Handle GET requests to /api route
 app.get("/api", (req, res) => {
-    res.json({ message: "Hello from server!" });
+    res.json({ message: "Server is UP !" });
 });
 
 // Handle GET requests to /test route
-app.get("/test", (req, res) => {
-    res.json({ message: "La ça sent bon" });
+app.get("/max7219_scrolling", (req, res) => {
+    res.json({ message: "Max7219 scrolling is running ..." });
+});
+
+app.get("/led_blinking", (req, res) => {
+    res.json({ message: "LED blancking is running ..." });
 });
 
 // All other GET requests not handled before will return our React app
