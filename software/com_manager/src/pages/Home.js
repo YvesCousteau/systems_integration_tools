@@ -18,16 +18,21 @@ function Home(props) {
     const int_setTests = [setTest_4, setTest_5, setTest_6]
     
     const [data, setData] = React.useState(null);
+    const [test, setTest] = React.useState(null);
     React.useEffect(() => {
         fetch("/api")
             .then((res) => res.json())
             .then((data) => setData(data.message));
+        fetch("/test")
+            .then((res) => res.json())
+            .then((test) => setTest(test.message));
     }, []);
 
     return (
         <div className="px-8 pt-4">
             <Header />
             <p>{!data ? "Loading..." : data}</p>
+            <p>{!test ? "Loading..." : test}</p>
             {props.index === 0 && <Unit tests={unit_tests} setTests={unit_setTests}/>}
             {props.index === 1 && <Integration tests={int_tests} setTests={int_setTests} />}
         </div>
