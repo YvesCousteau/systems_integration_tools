@@ -1,9 +1,7 @@
-import { Fragment, useRef, useState } from 'react'
+import { Fragment, useRef } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 
 export default function Modal(props) {
-  const [state, setState] = useState(false);
   const cancelButtonRef = useRef(null)
 
   return (
@@ -37,39 +35,19 @@ export default function Modal(props) {
                   <div className="sm:flex sm:items-start">
                     <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                       <Dialog.Title as="h3" className="text-xl font-bold leading-6 text-gray-800">
-                        {props.test.function}
+                        {props.title}
                       </Dialog.Title>
                       <div className="mt-2">
                         <p className="text-sm text-gray-500">
-                          Here you can describe what you want with this function.
+                          {props.subtitle}
                         </p>
                       </div>
                     </div>
                   </div>
                 </div>
-                <p className="flex justify-center text-xl font-bold color-classic">State run :&nbsp;{props.test.state?(<div className='text-green-700'>Actif</div>):(<div className='text-red-700'>Inactif</div>)}</p>
-                <div className='flex px-8 pt-4'>
-                  
-                  <div className='bg-gray-300 py-4 rounded-[12px] grid grid-cols-3 w-full '>
-                    <div className='mx-auto text-lg font-semibold'>Result :</div>
-                    <button 
-                    className='text-lg  bg-green-700 px-4 text-white rounded-[12px] w-24 shadow-md hover:bg-green-800 active:bg-green-900' 
-                    onClick={()=> props.setTest({...props.test,state: true})}>
-                      Valid
-                    </button>
-                    <button className='text-lg  bg-red-700 px-4 text-white rounded-[12px] w-24 shadow-md hover:bg-red-800 active:bg-red-900' onClick={()=> props.setTest({...props.test,state: false})}>
-                      Unvalid
-                    </button>
-                  </div>
-                  
-                </div>
+                {props.children}
                 <div className=" px-4 py-4 sm:flex sm:flex-row-reverse sm:px-8">
-                  <button
-                    type="button"
-                    className="btn btn-close"
-                    onClick={() => props.setOpen(false)}
-                    ref={cancelButtonRef}
-                  >
+                  <button className="btn btn-classic w-24" onClick={() => props.setOpen(false)}>
                     Close
                   </button>
                 </div>

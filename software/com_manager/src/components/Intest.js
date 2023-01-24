@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import Modal from "../components/Modal";
+import Modal from "./Modal";
 
-export default function Unitest(props) {
+export default function Intest(props) {
     const [modal, setModal] = useState(false);
 
     return(
@@ -10,7 +10,7 @@ export default function Unitest(props) {
                 Fct : {props.test.function}
             </p>
             <p className="font-semibold text-gray-800 pb-1">
-                Device : {props.test.device}
+                Component : {props.test.component}
             </p>
             <p className="flex font-semibold text-gray-800 pb-1">
                 State :&nbsp;{props.test.state?(<div className='text-green-700'>Valid</div>):(<div className='text-red-700'>Error</div>)}

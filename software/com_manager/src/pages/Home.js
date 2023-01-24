@@ -1,12 +1,27 @@
 import React, { useState } from 'react';
 import Unitest from "../components/Unitest";
+import Intest from "../components/Intest";
 
+function Home(props) {
+    //const pathname = window.location.pathname
+    /* Must be optimized */
+    const [test_1, setTest_1] = useState({ function: "Max7219 LED Scrolling", device: "Raspberry Pico", state: false });
+    const [test_2, setTest_2] = useState({ function: "Led Blinking External", device: "Raspberry Pico", state: false });
+    const [test_3, setTest_3] = useState({ function: "Led Blinking Internal", device: "Raspberry Pico", state: false });
+    const [test_4, setTest_4] = useState({ function: "Max7219 LED Scrolling", component: "Seats", state: false });
+    const [test_5, setTest_5] = useState({ function: "Led Blinking External", component: "Cluster", state: false });
+    const [test_6, setTest_6] = useState({ function: "Led Blinking Internal", component: "Ctr Console", state: false });
 
-function Home() {
+    const unit_tests = [test_1, test_2, test_3]
+    const unit_setTests = [setTest_1, setTest_2, setTest_3]
+    const int_tests = [test_4, test_5, test_6]
+    const int_setTests = [setTest_4, setTest_5, setTest_6]
+    
     return (
         <div className="px-8 pt-4">
             <Header/>
-            <Body />
+            {props.index === 0 && <Unit tests={unit_tests} setTests={unit_setTests}/>}
+            {props.index === 1 && <Integration tests={int_tests} setTests={int_setTests} />}
         </div>
     );
 }
@@ -20,18 +35,27 @@ function Header() {
     );
 }
 
-function Body() {
-
-    const [test_1, setTest_1] = useState({function: "Max7219 LED Scrolling", device: "Raspberry Pico", state: false});
-    const [test_2, setTest_2] = useState({function: "Led Blinking External", device: "Raspberry Pico", state: false});
-    const [test_3, setTest_3] = useState({function: "Led Blinking Internal", device: "Raspberry Pico", state: false});
+function Unit(props) {
     return (
         <div className="rounded-[14px] shadow-md bg-gray-200 px-8 py-4 mx-auto">
             <div className="flex justify-center font-bold text-2xl pb-4 color-classic">Units Tests</div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4  gap-4 pb-4">
-                <Unitest test={test_1} setTest={setTest_1}/>
-                <Unitest test={test_2} setTest={setTest_2}/>
-                <Unitest test={test_3} setTest={setTest_3}/>
+                <Unitest test={props.tests[0]} setTest={props.setTests[0]} />
+                <Unitest test={props.tests[1]} setTest={props.setTests[1]} />
+                <Unitest test={props.tests[2]} setTest={props.setTests[2]} />
+            </div>
+        </div>
+    );
+}
+
+function Integration(props) {
+    return (
+        <div className="rounded-[14px] shadow-md bg-gray-200 px-8 py-4 mx-auto">
+            <div className="flex justify-center font-bold text-2xl pb-4 color-classic">Integrations Tests</div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4  gap-4 pb-4">
+                <Intest test={props.tests[0]} setTest={props.setTests[0]} />
+                <Intest test={props.tests[1]} setTest={props.setTests[1]} />
+                <Intest test={props.tests[2]} setTest={props.setTests[2]} />
             </div>
         </div>
     );
