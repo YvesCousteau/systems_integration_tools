@@ -12,9 +12,14 @@
 }
 
 .btn-close {
-    @apply bg-red-600 text-white;
+    @apply bg-red-700 text-white;
 }
-
+.btn-close:hover {
+    @apply bg-red-800;
+}
+.btn-close:active {
+    @apply bg-red-900;
+}
 .btn-classic:hover {
     @apply bg-gray-900;
 }

@@ -3,7 +3,7 @@ import { Dialog, Transition } from '@headlessui/react'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 
 export default function Modal(props) {
-
+  const [state, setState] = useState(false);
   const cancelButtonRef = useRef(null)
 
   return (
@@ -37,21 +37,33 @@ export default function Modal(props) {
                   <div className="sm:flex sm:items-start">
                     <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                       <Dialog.Title as="h3" className="text-xl font-bold leading-6 text-gray-800">
-                        {props.function}
+                        {props.test.function}
                       </Dialog.Title>
                       <div className="mt-2">
                         <p className="text-sm text-gray-500">
-                          Are you sure you want to deactivate your account? All of your data will be permanently
-                          removed. This action cannot be undone.
+                          Here you can describe what you want with this function.
                         </p>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="mx-auto rounded-full w-80 bg-gray-800 h-2">
-
+                <p className="flex justify-center text-xl font-bold color-classic">State run :&nbsp;{props.test.state?(<div className='text-green-700'>Actif</div>):(<div className='text-red-700'>Inactif</div>)}</p>
+                <div className='flex px-8 pt-4'>
+                  
+                  <div className='bg-gray-300 py-4 rounded-[12px] grid grid-cols-3 w-full '>
+                    <div className='mx-auto text-lg font-semibold'>Result :</div>
+                    <button 
+                    className='text-lg  bg-green-700 px-4 text-white rounded-[12px] w-24 shadow-md hover:bg-green-800 active:bg-green-900' 
+                    onClick={()=> props.setTest({...props.test,state: true})}>
+                      Valid
+                    </button>
+                    <button className='text-lg  bg-red-700 px-4 text-white rounded-[12px] w-24 shadow-md hover:bg-red-800 active:bg-red-900' onClick={()=> props.setTest({...props.test,state: false})}>
+                      Unvalid
+                    </button>
+                  </div>
+                  
                 </div>
-                <div className=" px-4 py-2 sm:flex sm:flex-row-reverse sm:px-6">
+                <div className=" px-4 py-4 sm:flex sm:flex-row-reverse sm:px-8">
                   <button
                     type="button"
                     className="btn btn-close"
