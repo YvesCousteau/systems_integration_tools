@@ -37,7 +37,7 @@ export default function Navbar(props) {
                                 </div>
                                 <div className="hidden sm:ml-6 sm:block">
                                     <div className="flex space-x-4">
-                                        {navigation.map((item, index) => (<button className={"btn btn-classic" + props.index === index && ""} onClick={() => props.setIndex(index)}>{item.name}</button>))}
+                                        {navigation.map((item, index) => (<button className={`btn btn-primary w-44 ${props.index === index && "btn-secondary"}`} onClick={() => props.setIndex(index)}>{item.name}</button>))}
                                     </div>
                                 </div>
                             </div>
