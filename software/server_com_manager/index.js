@@ -1,6 +1,7 @@
 const express = require("express")
 const path = require('path');
 const bodyParser = require("body-parser");
+const { sensitiveHeaders } = require("http2");
 //const mongoose = require('mongoose');
 
 const PORT = process.env.PORT || 3001
@@ -17,21 +18,22 @@ app.use(bodyParser.urlencoded({
 //app.use(express.static(path.resolve(__dirname, './../com_manager/build')));
 
 // Handle GET requests to /api route
-app.get("/api", (req, res) => {
+app.post("/api", (req, res) => {
     res.json({ message: "Server is UP !" });
 });
 
 // Handle GET requests to /test route
-app.get("/max7219_scrolling", (req, res) => {
+app.post("/max7219_scrolling", (req, res) => {
     res.json({ message: "Max7219 scrolling is running ..." });
+    python3 sensitiveHeaders.py
 });
 
-app.get("/led_blinking", (req, res) => {
+app.post("/led_blinking", (req, res) => {
     res.json({ message: "LED blancking is running ..." });
 });
 
 // All other GET requests not handled before will return our React app
-app.get('*', (req, res) => {
+app.post('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, './../com_manager/build', 'index.html'));
 });
 

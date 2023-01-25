@@ -49,7 +49,7 @@ function Home(props) {
     
     const [server, setServer] = React.useState(null);
     React.useEffect(() => {
-        fetch("/api")
+        fetch("/api",{methode:"post"})
             .then((res) => res.json())
             .then((data) => setServer(data.message));
     }, []);

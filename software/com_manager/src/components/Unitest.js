@@ -6,8 +6,7 @@ export default function Unitest(props) {
     
     const [server, setServer] = React.useState(null);
     if (modal === true) {
-        console.log("efefefe");
-        fetch(props.test.api)
+        fetch(props.test.api,{methode:"post"})
             .then((res) => res.json())
             .then((data) => setServer(data.message));
     }
