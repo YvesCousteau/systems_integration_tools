@@ -46,10 +46,10 @@ function Home(props) {
     const unit_setTests = [setTest_1, setTest_2, setTest_3]
     const int_tests = [test_4, test_5, test_6]
     const int_setTests = [setTest_4, setTest_5, setTest_6]
-    
+
     const [server, setServer] = React.useState(null);
     React.useEffect(() => {
-        fetch("/api",{methode:"post"})
+        fetch("/api")
             .then((res) => res.json())
             .then((data) => setServer(data.message));
     }, []);
