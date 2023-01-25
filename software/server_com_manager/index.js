@@ -2,6 +2,7 @@ const express = require("express")
 const path = require('path');
 const bodyParser = require("body-parser");
 const { sensitiveHeaders } = require("http2");
+const { exec } = require('node:child_process')
 //const mongoose = require('mongoose');
 
 const PORT = process.env.PORT || 3001
@@ -25,7 +26,13 @@ app.post("/api", (req, res) => {
 // Handle GET requests to /test route
 app.post("/max7219_scrolling", (req, res) => {
     res.json({ message: "Max7219 scrolling is running ..." });
-    python3 sensitiveHeaders.py
+    exec('killall python3;python3 sender_uart.py 1', (err, output) => {
+        if (err) {
+            console.error("could not execute command: ", err)
+            return
+        }
+        console.log("Output: \n", output)
+    })
 });
 
 app.post("/led_blinking", (req, res) => {
