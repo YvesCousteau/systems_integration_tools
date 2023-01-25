@@ -24,13 +24,16 @@ app.get("/api", (req, res) => {
 
 app.post("/close", (req, res) => {
     res.json({ message: "closing ..." });
-    exec('ls', (err, output) => {
+    exec('ls | grep js', (err, stdout, stderr) => {
         if (err) {
-            console.error("could not execute command: ", err)
-            return
+            //some err occurred
+            console.error(err)
+        } else {
+            // the *entire* stdout and stderr (buffered)
+            console.log(`stdout: ${stdout}`);
+            console.log(`stderr: ${stderr}`);
         }
-        console.log("Output: \n", output)
-    })
+    });
 });
 
 // Handle GET requests to /test route
