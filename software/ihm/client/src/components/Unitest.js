@@ -5,8 +5,13 @@ export default function Unitest(props) {
     const [modal, setModal] = useState(false);
     
     const [server, setServer] = React.useState(null);
-    if (modal === true) {
+    if (modal) {
         fetch(props.test.api,{method: 'POST'})
+            .then((res) => res.json())
+            .then((data) => setServer(data.message));
+    }
+    if (!modal) {
+        fetch("/close",{method: 'POST'})
             .then((res) => res.json())
             .then((data) => setServer(data.message));
     }
@@ -17,7 +22,7 @@ export default function Unitest(props) {
                 Fct : {props.test.function}
             </p>
             <p className="font-semibold text-gray-800 pb-1">
-                Device : {props.test.device}
+                Device : {!props.test.device ? "Loading .." : props.test.device}
             </p>
             <p className="flex font-semibold text-gray-800 pb-1">
                 State :&nbsp;{props.test.state?(<div className='text-green-700'>Valid</div>):(<div className='text-red-700'>Error</div>)}

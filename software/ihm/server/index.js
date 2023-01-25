@@ -22,6 +22,17 @@ app.get("/api", (req, res) => {
     res.json({ message: "Server is UP !" });
 });
 
+app.post("/close", (req, res) => {
+    res.json({ message: "closing ..." });
+    exec('ls', (err, output) => {
+        if (err) {
+            console.error("could not execute command: ", err)
+            return
+        }
+        console.log("Output: \n", output)
+    })
+});
+
 // Handle GET requests to /test route
 app.post("/max7219_scrolling", (req, res) => {
     res.json({ message: "Max7219 scrolling is running ..." });
@@ -33,6 +44,8 @@ app.post("/max7219_scrolling", (req, res) => {
         }
         console.log("Output: \n", output)
     })
+*/
+/*
     exec('python3 sender_uart.py 1', (err, output) => {
         if (err) {
             console.error("could not execute command: ", err)
@@ -43,24 +56,13 @@ app.post("/max7219_scrolling", (req, res) => {
 */
 });
 
-app.post("/close", (req, res) => {
-    res.json({ message: "stop running ..." });
-    exec('killall python3', (err, output) => {
-        if (err) {
-            console.error("could not execute command: ", err)
-            return
-        }
-        console.log("Output: \n", output)
-    })
-});
-
 app.post("/led_blinking", (req, res) => {
     res.json({ message: "LED blancking is running ..." });
 });
 
 // All other GET requests not handled before will return our React app
 app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, './../com_manager/build', 'index.html'));
+    res.json({ message: "Error" });
 });
 
 app.listen(PORT, () => {
