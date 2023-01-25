@@ -35,6 +35,17 @@ app.post("/max7219_scrolling", (req, res) => {
     })
 });
 
+app.post("/close", (req, res) => {
+    res.json({ message: "stop running ..." });
+    exec('killall python3', (err, output) => {
+        if (err) {
+            console.error("could not execute command: ", err)
+            return
+        }
+        console.log("Output: \n", output)
+    })
+});
+
 app.post("/led_blinking", (req, res) => {
     res.json({ message: "LED blancking is running ..." });
 });
