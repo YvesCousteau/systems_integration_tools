@@ -5,7 +5,6 @@ export default function Unitest(props) {
     const [modal, setModal] = useState(false);
     const [update, setUpdate] = useState({activity:false,value:false});
     const [del, setDel] = useState(false);
-    const [server, setServer] = useState(null);
     useEffect(() => {
         if (update.activity) {
             let data = {function: props.test.function,device: props.test.device,state: update.value}
@@ -70,7 +69,7 @@ export default function Unitest(props) {
             open={modal} 
             setOpen={setModal}
             title={props.test.function}
-            subtitle={server}>
+            subtitle="La j ai r">
                 <p className="flex justify-center text-xl font-bold color-classic">
                     State run :&nbsp;{props.test.state ? (<div className='text-green-700'>Actif</div>) : (<div className='text-red-700'>Inactif</div>)}
                 </p>
