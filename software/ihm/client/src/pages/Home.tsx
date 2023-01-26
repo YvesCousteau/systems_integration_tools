@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Unitest from "../components/Unitest";
 import Intest from "../components/Intest";
 
@@ -47,8 +47,8 @@ function Home(props) {
     const int_tests = [test_4, test_5, test_6]
     const int_setTests = [setTest_4, setTest_5, setTest_6]
 
-    const [server, setServer] = React.useState(null);
-    React.useEffect(() => {
+    const [server, setServer] = useState(null);
+    useEffect(() => {
         fetch("/api")
             .then((res) => res.json())
             .then((data) => setServer(data.message));
@@ -73,7 +73,7 @@ function Header() {
     );
 }
 
-function Unit(props) {
+function Unit(props): JSX.Element {
     return (
         <div className="rounded-[14px] shadow-md bg-gray-200 px-8 py-4 mx-auto">
             <div className="flex justify-center font-bold text-2xl pb-4 color-classic">Units Tests</div>

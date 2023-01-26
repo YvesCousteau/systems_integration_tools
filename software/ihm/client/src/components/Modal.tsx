@@ -6,7 +6,7 @@ export default function Modal(props) {
 
   return (
     <Transition.Root show={props.open} as={Fragment}>
-      <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={props.setOpen}>
+      <Dialog className="relative z-10" initialFocus={cancelButtonRef} onClose={props.setOpen}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -34,7 +34,7 @@ export default function Modal(props) {
                 <div className=" px-4 pt-4 pb-2">
                   <div className="sm:flex sm:items-start">
                     <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                      <Dialog.Title as="h3" className="text-xl font-bold leading-6 text-gray-800">
+                      <Dialog.Title className="text-xl font-bold leading-6 text-gray-800">
                         {props.title}
                       </Dialog.Title>
                       <div className="mt-2">

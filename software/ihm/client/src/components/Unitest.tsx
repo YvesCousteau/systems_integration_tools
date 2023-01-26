@@ -1,9 +1,9 @@
-import React, { useState,useEffect } from 'react';
-import Modal from "../components/Modal";
+import { useState,useEffect } from 'react';
+import Modal from "./Modal";
 
 export default function Unitest(props) {
     const [modal, setModal] = useState(false);
-    const [server, setServer] = React.useState(null);
+    const [server, setServer] = useState(null);
     useEffect(() => {
         if (modal) {
             fetch(props.test.api,{method: 'POST'})
@@ -15,7 +15,8 @@ export default function Unitest(props) {
                 .then((res) => res.json())
                 .then((data) => setServer(data.message));
         }
-    }, [modal]);
+        
+    }, [modal, props.test.api]);
     
 
     return(
@@ -29,7 +30,7 @@ export default function Unitest(props) {
             <p className="flex font-semibold text-gray-800 pb-1">
                 State :&nbsp;{props.test.state?(<div className='text-green-700'>Valid</div>):(<div className='text-red-700'>Error</div>)}
             </p>
-            <button class="btn btn-classic w-full" onClick={() => setModal(true)}>
+            <button className="btn btn-classic w-full" onClick={() => setModal(true)}>
                 Run
             </button>
             <Modal 

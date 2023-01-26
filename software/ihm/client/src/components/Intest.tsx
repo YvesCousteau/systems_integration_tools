@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Modal from "./Modal";
 
 export default function Intest(props) {
@@ -15,7 +15,7 @@ export default function Intest(props) {
             <p className="flex font-semibold text-gray-800 pb-1">
                 State :&nbsp;{props.test.state?(<div className='text-green-700'>Valid</div>):(<div className='text-red-700'>Error</div>)}
             </p>
-            <button class="btn btn-classic w-full" onClick={() => setModal(true)}>
+            <button className="btn btn-classic w-full" onClick={() => setModal(true)}>
                 Run
             </button>
             <Modal 
