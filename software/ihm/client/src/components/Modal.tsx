@@ -38,9 +38,8 @@ export default function Modal(props) {
                         {props.title}
                       </Dialog.Title>
                       <div className="mt-2">
-                        <p className="text-sm text-gray-500">
-                          {props.subtitle}
-                        </p>
+                        {props.subtitle !== null && <p className="text-sm text-gray-500">{props.subtitle}</p>}
+                        {props.subtitle === null && <p className="animate-pulse h-2 bg-gray-400 rounded"/>}
                       </div>
                     </div>
                   </div>
