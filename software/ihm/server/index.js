@@ -22,7 +22,7 @@ app.get("/api", (req, res) => {
     res.json({ message: "Server is UP !" });
 });
 
-app.post("/close", (req, res) => {
+app.post("/close_uart", (req, res) => {
     res.json({ message: "closing ..." });
     exec('kill -9 `ps aux | grep ../../uart/sender.py | awk \'{print $2}\' | head -n 1`');
     exec('sleep 1');

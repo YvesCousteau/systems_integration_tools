@@ -6,14 +6,12 @@ export default function Unitest(props) {
     const [server, setServer] = React.useState(null);
     useEffect(() => {
         if (modal) {
-            console.log("open");
             fetch(props.test.api,{method: 'POST'})
                 .then((res) => res.json())
                 .then((data) => setServer(data.message));
         }
         if (!modal) {
-            console.log("close");
-            fetch("/close",{method: 'POST'})
+            fetch("/close_uart",{method: 'POST'})
                 .then((res) => res.json())
                 .then((data) => setServer(data.message));
         }
