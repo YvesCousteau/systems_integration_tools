@@ -11,6 +11,7 @@ class Main:
         self.led = [Pin(25, Pin.OUT),Pin(6, Pin.OUT), Pin(7, Pin.OUT)]
         # UART #
         self.uart = UART(0, baudrate=115200, parity=None, stop=1, bits=8)
+        print(self.uart)
         # MAX7219 #
         self.spi = SPI(0, sck=Pin(18), mosi=Pin(19))
         self.cs = Pin(17, Pin.OUT)
@@ -24,7 +25,7 @@ class Main:
         msg = ""
         while True:
             if self.uart.any():
-                b = self.uart.read()
+                b = self.uart.read(1)
                 print(b)
                 try:
                     msg = b.decode()
@@ -32,8 +33,10 @@ class Main:
                 except:
                     pass
             if msg != "":
-                if msg == str(1):
-                    self.max7219_fct("UART",3)
+                if msg == str("A"):
+                    self.max7219_fct("UART",3,msg)
+                if msg == str("C"):
+                    self.max7219_fct("SEEEEEXE",3,msg)
             else:
                 if self.button[0].value() == 0:
                     self.led_fct(0)
@@ -42,7 +45,8 @@ class Main:
                 if self.button[2].value() == 0:
                     self.led_fct(2) 
                 if self.button[3].value() == 0:
-                    self.max7219_fct("Max7219",3)
+                    self.max7219_fct("Max7219",3, msg)
+                    
             time.sleep(0.2)
     def led_fct(self,num):
         # To set #
@@ -50,7 +54,7 @@ class Main:
         time.sleep_ms(250)
         self.led[num].value(0)
         time.sleep_ms(250)
-    def max7219_fct(self,word,button):
+    def max7219_fct(self,word,button,uart):
         # MAX7219 #
         self.display.brightness(1)
         scrolling_message = word
@@ -66,6 +70,7 @@ class Main:
                 self.display.show()
                 time.sleep(0.1)
                 if self.button[button].value() == 0:
+                    uart = ""
                     self.display.fill(0)
                     self.display.show()
                     return

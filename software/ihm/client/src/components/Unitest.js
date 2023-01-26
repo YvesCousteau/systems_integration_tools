@@ -1,20 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Modal from "../components/Modal";
 
 export default function Unitest(props) {
     const [modal, setModal] = useState(false);
-    
     const [server, setServer] = React.useState(null);
-    if (modal) {
-        fetch(props.test.api,{method: 'POST'})
-            .then((res) => res.json())
-            .then((data) => setServer(data.message));
-    }
-    if (!modal) {
-        fetch("/close",{method: 'POST'})
-            .then((res) => res.json())
-            .then((data) => setServer(data.message));
-    }
+    useEffect(() => {
+        if (modal) {
+            console.log("open");
+            fetch(props.test.api,{method: 'POST'})
+                .then((res) => res.json())
+                .then((data) => setServer(data.message));
+        }
+        if (!modal) {
+            console.log("close");
+            fetch("/close",{method: 'POST'})
+                .then((res) => res.json())
+                .then((data) => setServer(data.message));
+        }
+    }, [modal]);
+    
 
     return(
         <div className="rounded-[14px] shadow-md px-4 py-4 bg-gray-300 mx-auto w-60">

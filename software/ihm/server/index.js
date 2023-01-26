@@ -24,43 +24,32 @@ app.get("/api", (req, res) => {
 
 app.post("/close", (req, res) => {
     res.json({ message: "closing ..." });
-    exec('ls | grep js', (err, stdout, stderr) => {
-        if (err) {
-            //some err occurred
-            console.error(err)
-        } else {
-            // the *entire* stdout and stderr (buffered)
-            console.log(`stdout: ${stdout}`);
-            console.log(`stderr: ${stderr}`);
-        }
-    });
+    exec('kill -9 `ps aux | grep ../../uart/sender.py | awk \'{print $2}\' | head -n 1`');
+    exec('sleep 1');
+    exec('kill -9 `ps aux | grep ../../uart/sender.py | awk \'{print $2}\' | head -n 1`');
 });
 
 // Handle GET requests to /test route
 app.post("/max7219_scrolling", (req, res) => {
     res.json({ message: "Max7219 scrolling is running ..." });
-/*
-    exec('killall python3', (err, output) => {
+    exec('python3 ../../uart/sender.py A', (err, output) => {
         if (err) {
             console.error("could not execute command: ", err)
             return
         }
         console.log("Output: \n", output)
     })
-*/
-/*
-    exec('python3 sender_uart.py 1', (err, output) => {
-        if (err) {
-            console.error("could not execute command: ", err)
-            return
-        }
-        console.log("Output: \n", output)
-    })
-*/
 });
 
 app.post("/led_blinking", (req, res) => {
     res.json({ message: "LED blancking is running ..." });
+    exec('python3 ../../uart/sender.py C', (err, output) => {
+        if (err) {
+            console.error("could not execute command: ", err)
+            return
+        }
+        console.log("Output: \n", output)
+    })
 });
 
 // All other GET requests not handled before will return our React app

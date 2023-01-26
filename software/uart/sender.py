@@ -10,10 +10,6 @@ ser = serial.Serial(
   bytesize=serial.EIGHTBITS,
   timeout=1
 )
-msg = ""
-i = 0
 while True:
-    i+=1
-    print("Counter {} - from Raspberry Pi - ".format(i) + sys.argv[1])
     ser.write(sys.argv[1].encode())
     time.sleep(2)
