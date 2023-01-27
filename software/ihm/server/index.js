@@ -57,9 +57,8 @@ app.get("/api/device/:id", (req, res, next) => {
     });
 });
 
-app.post("/api/device/creat/", (req, res, next) => {
+app.post("/api/device/", (req, res, next) => {
     var errors = []
-    console.log(req.body);
     if (!req.body.name) {
         errors.push("No name specified");
     }
@@ -84,7 +83,7 @@ app.post("/api/device/creat/", (req, res, next) => {
         })
     });
 })
-app.patch("/api/device/:id/update", (req, res, next) => {
+app.patch("/api/device/:id", (req, res, next) => {
     var data = {
         name: req.body.name,
     }
@@ -99,13 +98,13 @@ app.patch("/api/device/:id/update", (req, res, next) => {
                 return;
             }
             res.json({
-                message: "success",
-                data: data,
-                changes: this.changes
+                "message": "success",
+                "data": data,
+                "changes": this.changes
             })
         });
 })
-app.delete("/api/device/:id/delete", (req, res, next) => {
+app.delete("/api/device/:id", (req, res, next) => {
     db.run(
         'DELETE FROM devices WHERE id = ?',
         req.params.id,

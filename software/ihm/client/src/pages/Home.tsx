@@ -10,7 +10,7 @@ function Home(props) {
         if (props.index === 0) {}
         if (props.index === 1) {}
         if (props.index === 2) {}
-    }, []);
+    }, [props.index]);
 
     return (
         <div className="px-8 pt-4">

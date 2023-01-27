@@ -11,25 +11,6 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
     } else {
         console.log('Connected to the SQLite database.')
         db.run(
-            `CREATE TABLE test_unit (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                function text UNIQUE, 
-                device text,
-                state boolean, 
-                CONSTRAINT function_unique UNIQUE (function)
-            )`,
-            (err) => {
-                if (err) {
-                    console.log("Table already created")
-                } else {
-                    console.log("Table just created, creating some rows")
-                    var insert = 'INSERT INTO test_unit (function, device, state) VALUES (?,?,?)'
-                    db.run(insert, ["Max7219 LED Scrolling", "Pico", false])
-                    db.run(insert, ["Led Blinking External", "Pico", false])
-                }
-            }
-        );
-        db.run(
             `CREATE TABLE devices (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name text UNIQUE,
@@ -37,9 +18,9 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
             )`,
             (err) => {
                 if (err) {
-                    console.log("Table already created")
+                    console.log("Table devices already created")
                 } else {
-                    console.log("Table just created, creating some rows")
+                    console.log("Table devices just created, creating some rows")
                     var insert = 'INSERT INTO devices (name) VALUES (?)'
                     db.run(insert, ["Com Manager"])
                 }
@@ -54,9 +35,9 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
             )`,
             (err) => {
                 if (err) {
-                    console.log("Table already created")
+                    console.log("Table functions already created")
                 } else {
-                    console.log("Table just created")
+                    console.log("Table functions just created")
                 
                 }
             }
@@ -69,9 +50,9 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
             )`,
             (err) => {
                 if (err) {
-                    console.log("Table already created")
+                    console.log("Table details already created")
                 } else {
-                    console.log("Table just created")
+                    console.log("Table details just created")
                 
                 }
             }

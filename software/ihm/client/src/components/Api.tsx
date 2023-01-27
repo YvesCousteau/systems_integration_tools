@@ -35,7 +35,7 @@ export function getDevice(setValue,id) {
             method: 'GET'
         })
         result.then((sucess) => { console.log(sucess) })
-        result.then((res) => res.json()).then((data) => setValue(data));
+        result.then((res) => res.json()).then((data) => setValue(data.data));
     } catch (error) {
         console.log(error);
     }
@@ -46,7 +46,7 @@ export function creatDevice(body) {
     // let body = { name: props.name, functions: props.functions, details: props.details }
 
     try {
-        let result = fetch("/api/device/creat/", {
+        let result = fetch("/api/device/", {
             method: 'POST',
             headers: {
                 Accept: 'application.json',
@@ -63,7 +63,7 @@ export function creatDevice(body) {
 export function updateDevice(id,body) {
     // let body = { name: props.name, functions: props.functions, details: props.details }
     try {
-        let result = fetch("/api/device/"+id+"/update/", {
+        let result = fetch("/api/device/"+id, {
             method: 'PATCH',
             headers: {
                 Accept: 'application.json',
@@ -79,7 +79,7 @@ export function updateDevice(id,body) {
 
 export function deleteDevice(id) {
     try {
-        let result = fetch("/api/device/"+id+"/delete/", {
+        let result = fetch("/api/device/"+id, {
             method: 'DELETE'
         })
         result.then((sucess) => { console.log(sucess) })
