@@ -4,14 +4,13 @@ import * as Api from '../components/Api';
 
 function Home(props) {
     const [server, setServer] = useState(null);
-    const [, setUnitTest] = useState(null);
     useEffect(() => {
-        setServer(Api.getApi())
-
+        Api.getApi(setServer);
+       
         if (props.index === 0) {}
         if (props.index === 1) {}
-        if (props.index === 2) { }
-    }, [server,props.index]);
+        if (props.index === 2) {}
+    }, []);
 
     return (
         <div className="px-8 pt-4">

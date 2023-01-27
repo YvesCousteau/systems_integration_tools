@@ -26,6 +26,97 @@ app.get("/api", (req, res) => {
         message: "Server is UP !" 
     });
 });
+
+app.get("/api/devices", (req, res, next) => {
+    var sql = "select * from devices"
+    var params = []
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            res.status(400).json({ "error": err.message });
+            return;
+        }
+        res.json({
+            "message": "success",
+            "data": rows
+        })
+    });
+});
+
+app.get("/api/device/:id", (req, res, next) => {
+    var sql = "select * from devices where id = ?"
+    var params = [req.params.id]
+    db.get(sql, params, (err, row) => {
+        if (err) {
+            res.status(400).json({ "error": err.message });
+            return;
+        }
+        res.json({
+            "message": "success",
+            "data": row
+        })
+    });
+});
+
+app.post("/api/device/creat/", (req, res, next) => {
+    var errors = []
+    console.log(req.body);
+    if (!req.body.name) {
+        errors.push("No name specified");
+    }
+    if (errors.length) {
+        res.status(400).json({ "error": errors.join(",") });
+        return;
+    }
+    var data = {
+        name: req.body.name,
+    }
+    var sql = 'INSERT INTO devices (name) VALUES (?)'
+    var params = [data.name]
+    db.run(sql, params, function (err, result) {
+        if (err) {
+            res.status(400).json({ "error": err.message })
+            return;
+        }
+        res.json({
+            "message": "success",
+            "data": data,
+            "id": this.lastID
+        })
+    });
+})
+app.patch("/api/device/:id/update", (req, res, next) => {
+    var data = {
+        name: req.body.name,
+    }
+    db.run(
+        `UPDATE devices set 
+           name = COALESCE(?,name)
+           WHERE id = ?`,
+        [data.name, req.params.id],
+        function (err, result) {
+            if (err) {
+                res.status(400).json({ "error": res.message })
+                return;
+            }
+            res.json({
+                message: "success",
+                data: data,
+                changes: this.changes
+            })
+        });
+})
+app.delete("/api/device/:id/delete", (req, res, next) => {
+    db.run(
+        'DELETE FROM devices WHERE id = ?',
+        req.params.id,
+        function (err, result) {
+            if (err) {
+                res.status(400).json({ "error": res.message })
+                return;
+            }
+            res.json({ "message": "deleted", changes: this.changes })
+        });
+})
 /* --------------------- */
 /* --- API Unit Test --- */
 /* --------------------- */
@@ -97,9 +188,6 @@ app.patch("/api/test/unit/:id", (req, res, next) => {
         device: req.body.device,
         state: req.body.state
     }
-    //console.log(data.function);
-    //console.log(data.device);
-    //console.log(data.state);
     db.run(
         `UPDATE test_unit set 
            function = COALESCE(?,function), 

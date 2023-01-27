@@ -5,7 +5,7 @@ export default function Paper(props) {
                 <p className="font-semibold text-gray-800 pb-1">
                     {props.title}
                 </p>
-                <button className='btn btn-close' onClick={() => props.del(true)}>X</button>
+                <button className='btn btn-close' onClick={() => props.deleted(true)}>X</button>
             </div>
             {props.list.map(function (item, index) {
                 return <p className="font-semibold text-gray-800 pb-1">{item}</p>;

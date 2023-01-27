@@ -1,12 +1,11 @@
-export function getApi() {
+export function getApi(setValue) {
     let response;
     try {
         let result = fetch("/api", {
             method: 'GET'
         })
         result.then((sucess) => { console.log(sucess) })
-        result.then((res) => res.json()).then((data) => console.log(data.message));
-        console.log();
+        result.then((res) => res.json()).then((data) => setValue(data.message));
     } catch (error) {
         console.log(error);
     }
@@ -15,25 +14,39 @@ export function getApi() {
     return response;
 }
 
-export function getDevices() {
+export function getDevices(setValue) {
     let response;
     try {
-        let result = fetch("/api/devices", {
+        let result = fetch("/api/devices/", {
             method: 'GET'
         })
         result.then((sucess) => { console.log(sucess) })
-        result.then((res) => res.json()).then((data) => response = data.message);
+        result.then((res) => res.json()).then((data) => setValue(data.data));
     } catch (error) {
         console.log(error);
     }
     return response;
 }
 
-export function creatDevice(props) {
-    let body = { name: props.name, functions: props.functions, details: props.details }
+export function getDevice(setValue,id) {
     let response;
     try {
-        let result = fetch("/api/device/"+props.id+"/creat/", {
+        let result = fetch("/api/device/"+id, {
+            method: 'GET'
+        })
+        result.then((sucess) => { console.log(sucess) })
+        result.then((res) => res.json()).then((data) => setValue(data));
+    } catch (error) {
+        console.log(error);
+    }
+    return response;
+}
+
+export function creatDevice(body) {
+    // let body = { name: props.name, functions: props.functions, details: props.details }
+
+    try {
+        let result = fetch("/api/device/creat/", {
             method: 'POST',
             headers: {
                 Accept: 'application.json',
@@ -41,19 +54,16 @@ export function creatDevice(props) {
             },
             body: JSON.stringify(body)
         })
-        result.then((sucess) => { console.log(sucess) })
-        result.then((res) => res.json()).then((data) => response = data.message);
+        result.then((sucess) => { console.log(sucess)})
     } catch (error) {
         console.log(error);
     }
-    return response;
 }
 
-export function updateDevice(props) {
-    let body = { name: props.name, functions: props.functions, details: props.details }
-    let response;
+export function updateDevice(id,body) {
+    // let body = { name: props.name, functions: props.functions, details: props.details }
     try {
-        let result = fetch("/api/device/"+props.id+"/update/", {
+        let result = fetch("/api/device/"+id+"/update/", {
             method: 'PATCH',
             headers: {
                 Accept: 'application.json',
@@ -62,23 +72,18 @@ export function updateDevice(props) {
             body: JSON.stringify(body)
         })
         result.then((sucess) => { console.log(sucess) })
-        result.then((res) => res.json()).then((data) => response = data.message);
     } catch (error) {
         console.log(error);
     }
-    return response;
 }
 
-export function deleteDevice(props) {
-    let response;
+export function deleteDevice(id) {
     try {
-        let result = fetch("/api/device/"+props.id+"/delete/", {
+        let result = fetch("/api/device/"+id+"/delete/", {
             method: 'DELETE'
         })
         result.then((sucess) => { console.log(sucess) })
-        result.then((res) => res.json()).then((data) => response = data.message);
     } catch (error) {
         console.log(error);
     }
-    return response;
 }

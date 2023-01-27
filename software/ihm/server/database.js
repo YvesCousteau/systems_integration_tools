@@ -29,6 +29,53 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
                 }
             }
         );
+        db.run(
+            `CREATE TABLE devices (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name text UNIQUE,
+                CONSTRAINT name_unique UNIQUE (name)
+            )`,
+            (err) => {
+                if (err) {
+                    console.log("Table already created")
+                } else {
+                    console.log("Table just created, creating some rows")
+                    var insert = 'INSERT INTO devices (name) VALUES (?)'
+                    db.run(insert, ["Com Manager"])
+                }
+            }
+        );
+        db.run(
+            `CREATE TABLE functions (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name text UNIQUE,
+                value integer,
+                CONSTRAINT name_unique UNIQUE (name)
+            )`,
+            (err) => {
+                if (err) {
+                    console.log("Table already created")
+                } else {
+                    console.log("Table just created")
+                
+                }
+            }
+        );
+        db.run(
+            `CREATE TABLE details (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                ref text,
+                power text,
+            )`,
+            (err) => {
+                if (err) {
+                    console.log("Table already created")
+                } else {
+                    console.log("Table just created")
+                
+                }
+            }
+        );
     }
 });
 module.exports = db
