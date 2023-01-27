@@ -97,6 +97,9 @@ app.patch("/api/test/unit/:id", (req, res, next) => {
         device: req.body.device,
         state: req.body.state
     }
+    //console.log(data.function);
+    //console.log(data.device);
+    //console.log(data.state);
     db.run(
         `UPDATE test_unit set 
            function = COALESCE(?,function), 
