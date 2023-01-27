@@ -4,7 +4,7 @@ export default function Input(props) {
             <label className="text-lg font-medium text-gray-700">{props.label}</label>
             <div className="col-span-3 relative rounded-md shadow-sm h-full">
                 <input type="text" name="price" id="price"
-                    className="w-full rounded-md shadow-md font-medium pl-2 pr-2 focus:ring-4 focus:ring-black sm:text-lg h-full"
+                    className="w-full rounded-md shadow-md font-medium pl-2 pr-2 focus:  sm:text-lg h-full"
                     placeholder={props.placeholder}
                 />
             </div>
