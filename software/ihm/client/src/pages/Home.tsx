@@ -4,14 +4,10 @@ import * as Api from '../components/Api';
 
 function Home(props) {
     const [server, setServer] = useState(null);
+    const [functions, setFunctions] = useState(false);
     useEffect(() => {
         Api.getApi(setServer);
-       
-        if (props.index === 0) {}
-        if (props.index === 1) {}
-        if (props.index === 2) {}
-    }, [props.index]);
-
+    }, []);
     return (
         <div className="px-8 pt-4">
             <Header />

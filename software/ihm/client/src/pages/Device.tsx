@@ -3,17 +3,13 @@ import Input from "../components/Input";
 import Modal from "../components/Modal";
 import Paper from "../components/Paper";
 import * as Api from '../components/Api';
+import Example from "../components/ListBox";
 
 export default function Device(props) {
     const [modalAdd, setModalAdd] = useState(false);
-    
-
     const [devices, setDevices] = useState(null);
     const [currentDevice, setCurrentDevice] = useState(null);
-
     const [created, setCreated] = useState(false);
-    
-
     const [inputName, setInputName] = useState('');
     useEffect(() => {
         if(created) {
@@ -24,7 +20,7 @@ export default function Device(props) {
             setCreated(false)
         }
         Api.getDevices(setDevices);
-    }, [created,currentDevice]);
+    }, [created,currentDevice,inputName]);
 
     
     return(
@@ -64,13 +60,12 @@ export default function Device(props) {
 function Item(props) {
     const [modalRun, setModalRun] = useState(false);
     const [modalUpdate, setModalUpdate] = useState(false);
-
     const [updated, setUpdated] = useState(false);
     const [deleted, setDeleted] = useState(false);
-
     const [inputName, setInputName] = useState('');
+    
     let list = []
-    if (props.device !== null) {list = ["Functions : ","Details : ",];}
+    if (props.device !== null) {list = ["Function Number : 0"];}
 
     useEffect(() => {
         if(updated) {
@@ -85,7 +80,7 @@ function Item(props) {
             props.setCurrentDevice(!props.currentDevice);
             setDeleted(false);
         }
-    }, [updated,deleted]);
+    }, [updated,deleted,inputName,props]);
     return(
         <div className=''>
             {props.device !== null && (
@@ -96,10 +91,31 @@ function Item(props) {
                         setOpen={setModalRun}
                         title={props.device.name}
                         subtitle="La j ai r">
-                        <p className="flex justify-center text-xl font-bold color-classic">
-                            State :&nbsp;{props.device.name ? (<div className='text-green-700'>Success</div>) : (<div className='text-red-700'>Fail</div>)}
-                        </p>
-                        <div className='bg-gray-300 py-4 my-2 rounded-[12px] mx-4'>
+                        <div className='bg-gray-300 py-4 rounded-[12px] mx-4'>
+                            <div className="grid grid-cols-4 gap-2 mx-8 mb-4">
+                                <p className="self-center text-lg font-semibold color-classic">
+                                    Function :&nbsp;
+                                </p>
+                                <div className="col-span-2">
+                                    <Example />
+                                </div>
+                                
+                                <p className="self-center text-lg font-semibold color-classic">
+                                    &nbsp;{">> Result"}
+                                </p>
+                            </div>
+                            <div className="grid grid-cols-4 gap-2 mx-8 mb-4">
+                                <p className="self-center text-lg font-semibold color-classic">
+                                    Detail :&nbsp;
+                                </p>
+                                <div className="col-span-2">
+                                    <Example />
+                                </div>
+                                
+                                <p className="self-center text-lg font-semibold color-classic">
+                                    &nbsp;{">> Result"}
+                                </p>
+                            </div>
                             <div className='grid grid-cols-3 w-full'>
                                 <div className='mx-auto text-lg font-semibold'>Result :</div>
                                 <button className='w-24 btn btn-open' onClick={(e) => (e)}>
