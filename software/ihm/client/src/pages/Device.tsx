@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Input from "../components/Input";
 import Modal from "../components/Modal";
 import Paper from "../components/Paper";
-import * as Api from '../components/Api';
+import * as Api from '../Api';
 import Example from "../components/ListBox";
 
 export default function Device(props) {
@@ -37,9 +37,6 @@ export default function Device(props) {
                         currentDevice={currentDevice}
                         setCurrentDevice={setCurrentDevice}/>
                     )}
-                    {devices === null && [1,2,3].map(function (object, i) {
-                        return <div className='animate-pulse w-80 h-34 bg-gray-900 rounded-[12px]' />;
-                    })}
                 </div>
             </div>
             <Modal

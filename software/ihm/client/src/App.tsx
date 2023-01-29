@@ -11,7 +11,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Layout/>}>
               <Route index element={<Devices/>} />
-              <Route path="functions" element={<Function />} />
+              <Route path="functions/:id?" element={<Function />} />
               <Route path="*" element={<NoPage />} />
             </Route>
           </Routes>

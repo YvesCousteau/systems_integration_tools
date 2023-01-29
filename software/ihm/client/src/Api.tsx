@@ -1,5 +1,4 @@
 export function getApi(setValue) {
-    let response;
     try {
         let result = fetch("/api", {
             method: 'GET'
@@ -9,13 +8,9 @@ export function getApi(setValue) {
     } catch (error) {
         console.log(error);
     }
-    
-    
-    return response;
 }
 
 export function getDevices(setValue) {
-    let response;
     try {
         let result = fetch("/api/devices/", {
             method: 'GET'
@@ -25,11 +20,9 @@ export function getDevices(setValue) {
     } catch (error) {
         console.log(error);
     }
-    return response;
 }
 
 export function getDevice(setValue,id) {
-    let response;
     try {
         let result = fetch("/api/device/"+id, {
             method: 'GET'
@@ -39,7 +32,6 @@ export function getDevice(setValue,id) {
     } catch (error) {
         console.log(error);
     }
-    return response;
 }
 
 export function creatDevice(body) {
@@ -85,10 +77,9 @@ export function deleteDevice(id) {
     }
 }
 
-export function getFunctions(setValue) {
-    let response;
+export function getFunctions(setValue,name) {
     try {
-        let result = fetch("/api/functions/", {
+        let result = fetch("/api/functions/"+name, {
             method: 'GET'
         })
         result.then((sucess) => { console.log(sucess) })
@@ -96,7 +87,6 @@ export function getFunctions(setValue) {
     } catch (error) {
         console.log(error);
     }
-    return response;
 }
 
 export function creatFunction(body) {
@@ -110,6 +100,17 @@ export function creatFunction(body) {
             body: JSON.stringify(body)
         })
         result.then((sucess) => { console.log(sucess)})
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export function deleteFunction(id) {
+    try {
+        let result = fetch("/api/function/"+id, {
+            method: 'DELETE'
+        })
+        result.then((sucess) => { console.log(sucess) })
     } catch (error) {
         console.log(error);
     }

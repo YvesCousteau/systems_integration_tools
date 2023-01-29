@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { Outlet, Link } from "react-router-dom";
-import * as Api from '../components/Api';
+import * as Api from '../Api';
 
 const Layout = () => {
     const pathname = window.location.pathname;
     const [currentPath, setCurrentPath] = useState(pathname);
     const list = [
         {name:"Devices",path:"/"},
-        {name:"Functions",path:"/functions"}
+        {name:"Functions",path:"/functions/"}
     ]
     const logo = require("../assets/logo512.png")
     useEffect(() => {
