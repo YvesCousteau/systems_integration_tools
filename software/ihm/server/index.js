@@ -116,11 +116,9 @@ app.delete("/api/device/:id", (req, res, next) => {
             res.json({ "message": "deleted", changes: this.changes })
         });
 })
-/* --------------------- */
-/* --- API Unit Test --- */
-/* --------------------- */
-app.get("/api/test/units", (req, res, next) => {
-    var sql = "select * from test_unit"
+
+app.get("/api/functions", (req, res, next) => {
+    var sql = "select * from functions"
     var params = []
     db.all(sql, params, (err, rows) => {
         if (err) {
@@ -133,42 +131,30 @@ app.get("/api/test/units", (req, res, next) => {
         })
     });
 });
-app.get("/api/test/unit/:id", (req, res, next) => {
-    var sql = "select * from test_unit where id = ?"
-    var params = [req.params.id]
-    db.get(sql, params, (err, row) => {
-        if (err) {
-            res.status(400).json({ "error": err.message });
-            return;
-        }
-        res.json({
-            "message": "success",
-            "data": row
-        })
-    });
-});
-app.post("/api/test/unit/", (req, res, next) => {
+
+app.post("/api/function/", (req, res, next) => {
     var errors = []
-    if (!req.body.function) {
-        errors.push("No function specified");
+    if (!req.body.name) {
+        errors.push("No name specified");
     }
     if (!req.body.device) {
-        errors.push("No device specified");
+        errors.push("No name specified");
     }
-    if (!req.body.state) {
-        req.body.state = false;
+    if (!req.body.cmd) {
+        errors.push("No name specified");
     }
     if (errors.length) {
         res.status(400).json({ "error": errors.join(",") });
         return;
     }
     var data = {
-        function: req.body.function,
+        name: req.body.name,
         device: req.body.device,
-        state: req.body.state
+        cmd: req.body.cmd,
+        value: req.body.value,
     }
-    var sql = 'INSERT INTO test_unit (function, device, state) VALUES (?,?,?)'
-    var params = [data.function, data.device, data.state]
+    var sql = 'INSERT INTO functions (name,device,cmd,value) VALUES (?,?,?,?)'
+    var params = [data.name,data.device,data.cmd,data.value]
     db.run(sql, params, function (err, result) {
         if (err) {
             res.status(400).json({ "error": err.message })
@@ -181,43 +167,7 @@ app.post("/api/test/unit/", (req, res, next) => {
         })
     });
 })
-app.patch("/api/test/unit/:id", (req, res, next) => {
-    var data = {
-        function: req.body.function,
-        device: req.body.device,
-        state: req.body.state
-    }
-    db.run(
-        `UPDATE test_unit set 
-           function = COALESCE(?,function), 
-           device = COALESCE(?,device), 
-           state = COALESCE(?,state) 
-           WHERE id = ?`,
-        [data.function, data.device, data.state, req.params.id],
-        function (err, result) {
-            if (err) {
-                res.status(400).json({ "error": res.message })
-                return;
-            }
-            res.json({
-                message: "success",
-                data: data,
-                changes: this.changes
-            })
-        });
-})
-app.delete("/api/test/unit/:id", (req, res, next) => {
-    db.run(
-        'DELETE FROM test_unit WHERE id = ?',
-        req.params.id,
-        function (err, result) {
-            if (err) {
-                res.status(400).json({ "error": res.message })
-                return;
-            }
-            res.json({ "message": "deleted", changes: this.changes })
-        });
-})
+
 /* ------------------------------ */
 /* --- API Unit Test Function --- */
 /* ------------------------------ */

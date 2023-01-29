@@ -20,11 +20,11 @@ export default function Device(props) {
             setCreated(false)
         }
         Api.getDevices(setDevices);
-    }, [created,currentDevice,inputName]);
+    }, [created,currentDevice]);
 
     
     return(
-        <div>
+        <div className="mx-8">
             <div className="rounded-[14px] shadow-md bg-gray-200 px-4 py-4 mx-auto">
                 <div className="flex pb-4 justify-between mx-6 ">
                     <div className="font-bold text-2xl color-classic ">Devices</div>
