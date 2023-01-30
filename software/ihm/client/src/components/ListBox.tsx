@@ -3,10 +3,19 @@ import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 
 export default function ListBox(props) {
-  const [selected, setSelected] = useState(props.data[0])
+  let index = 0;
+  for (const item in props.data) {
+    console.log(props.data[item].name+" a "+props.init);
+    if(props.data[item].name === props.init) {
+      break;
+    }
+    index++;
+  }
+  console.log(index);
+  
+  const [selected, setSelected] = useState(props.data[index])
   useEffect(() => {
-    props.device(selected.name);
-  }, [selected]);
+  }, []);
   return (
     <div className="">
       <Listbox value={selected} onChange={setSelected}>

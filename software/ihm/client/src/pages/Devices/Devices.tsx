@@ -51,7 +51,7 @@ function Item(props) {
     const [updated, setUpdated] = useState(false);
     const [deleted, setDeleted] = useState(false);
     
-    const [inputName, setInputName] = useState('');
+    const [inputName, setInputName] = useState(props.device.name);
     
     const [functions, setFunctions] = useState(null);
 
@@ -96,7 +96,7 @@ function Item(props) {
                         </p>
                         <Link to={"/functions/"+props.device.name} className="flex justify-center btn btn-classic ">Functions</Link>
                     </Paper>
-                    <UploadModal modal={modalUpdate} setModal={setModalUpdate} setInputName={setInputName} setUpdated={setUpdated}/>
+                    <UploadModal modal={modalUpdate} setModal={setModalUpdate} setInputName={setInputName} inputName={inputName} setUpdated={setUpdated}/>
                 </div>
             )}
         </div>
@@ -111,7 +111,7 @@ function AddModal(props) {
             title="Add"
             subtitle="Setup your device">
             <div className='bg-gray-300 py-4 rounded-[12px] px-4 mx-6 grid grid-cols-1 gap-4'>
-                <Input label="Name :" placeholder="Text..." value={props.setInputName}/>
+                <Input label="Name :" placeholder="Text..." onChange={props.setInputName}/>
                 <button className='btn btn-open w-32 mx-auto' onClick={() => props.setCreated(true)}>Send</button>
             </div>
         </Modal>
@@ -126,7 +126,7 @@ function UploadModal(props) {
             title="Update"
             subtitle="Update your device">
             <div className='bg-gray-300 py-4 rounded-[12px] px-4 mx-6 grid grid-cols-1 gap-4'>
-                <Input label="Name :" placeholder="Text..." value={props.setInputName}/>
+                <Input label="Name :" placeholder="Text..." onChange={props.setInputName} value={props.inputName}/>
                 <button className='btn btn-open w-32 mx-auto' onClick={() => props.setUpdated(true)}>Send</button>
             </div>
         </Modal>
