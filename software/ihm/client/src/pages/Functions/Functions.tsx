@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import Input from "../components/Input";
-import Modal from "../components/Modal";
-import * as Api from '../Api';
-import ListBox from "../components/ListBox";
+import Input from "../../components/Input";
+import Modal from "../../components/Modal";
+import * as Api from './Api';
+import ListBox from "../../components/ListBox";
 import {useParams, Link} from "react-router-dom";
 
-import Paper from "../components/Paper";
+import Paper from "../../components/Paper";
 
-export default function Function(props) {
+export default function Functions(props) {
     let { id } = useParams();
     const [modalAdd, setModalAdd] = useState(false);
 
@@ -58,18 +58,13 @@ export default function Function(props) {
                     })}
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-4  gap-4 justify-items-center mx-6">
-                    {(functions && functions.length > 0) ? (
-                        functions.map((fct) => 
-                            <Item 
-                            function={fct}
-                            devices={devices}
-                            currentFunction={currentFunction}
-                            setCurrentFunction={setCurrentFunction}/>)
-                    ):(
+                    {functions && functions.length > 0 && functions.map((fct) => 
                         <Item 
-                        function={functions}
+                        function={fct}
+                        devices={devices}
                         currentFunction={currentFunction}
-                        setCurrentFunction={setCurrentFunction}/>)}
+                        setCurrentFunction={setCurrentFunction}/>
+                    )}
                 </div>
             </div>
             <AddModal modal={modalAdd} setModal={setModalAdd} setInputName={setInputName} setInputDevice={setInputDevice} setInputCmd={setInputCmd} id={id} devices={devices} setCreated={setCreated}/>

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import Input from "../components/Input";
-import Modal from "../components/Modal";
-import Paper from "../components/Paper";
-import * as Api from '../Api';
+import Input from "../../components/Input";
+import Modal from "../../components/Modal";
+import Paper from "../../components/Paper";
+import * as Api from "./Api";
 import { Link } from "react-router-dom";
 
 export default function Device(props) {

@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
 import { Outlet, Link } from "react-router-dom";
-import * as Api from '../Api';
+import * as Api from './Api';
 
-const Layout = () => {
-    const pathname = window.location.pathname;
+const Navbar = () => {
+    /* Not rendered */
+    const [path, setPath] = useState(window.location.pathname);
     const list = [
         {name:"Devices",path:"/"},
-        {name:"Functions",path:"/functions/"}
     ]
-    const logo = require("../assets/logo512.png")
+    const logo = require("../../assets/logo512.png")
+    useEffect(() => {
+        setPath(window.location.pathname)
+    }, [window.location.pathname]);
     return(
     <div>
         <nav>
@@ -22,7 +25,7 @@ const Layout = () => {
                         <div className="flex space-x-4 items-center">
                             {list.map((item,index) => (
                                 <li>
-                                    <Link to={item.path} className={`flex justify-center btn btn-primary w-44 ${item.path === pathname && "btn-secondary"}`}>{item.name}</Link>
+                                    <Link to={item.path} className={`flex justify-center btn btn-primary w-44 ${item.path === path && "btn-secondary"}`}>{item.name}</Link>
                                 </li>
                             ))}
                         </div>
@@ -50,4 +53,4 @@ function Header() {
     );
 }
 
-export default Layout;
+export default Navbar;
