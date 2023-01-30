@@ -9,9 +9,9 @@ const app = express()
 const db = require("./database.js")
 
 const get = require("./api/get");
-const create = require("./api/create");
+const post = require("./api/post");
 const del = require("./api/delete");
-const update = require("./api/update");
+const patch = require("./api/patch");
 
 const PORT = process.env.PORT || 3001
 
@@ -29,14 +29,34 @@ app.use(bodyParser.json());
 get.server(app)
 
 get.devices(app,db)
-create.devices(app,db)
+post.devices(app,db)
 del.devices(app,db)
-update.devices(app,db)
+patch.devices(app,db)
 
 get.functions(app,db)
-create.functions(app,db)
+post.functions(app,db)
 del.functions(app,db)
-update.functions(app,db)
+patch.functions(app,db)
+
+app.post("/arraysum", (req, res) => {
+  
+    // Retrieve array form post body
+    var array = req.body.array;  
+    console.log(array);
+  
+    // Calculate sum
+    var sum = 0;
+    for (var i = 0; i < array.length; i++) {
+        if (isNaN(array[i])) {
+            continue;
+        }
+        sum += array[i];
+    }
+    console.log(sum);
+  
+    // Return json response
+    res.json({ result: sum });
+});
 
 get.rest(app)
 /* ------------------------ */
