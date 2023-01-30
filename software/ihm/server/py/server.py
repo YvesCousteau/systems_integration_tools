@@ -1,23 +1,34 @@
-from flask import Flask, request
+from flask import Flask, request,jsonify
+from flask_socketio import SocketIO,emit
+from flask_cors import CORS
 import json 
-   
-# Setup flask server
-app = Flask(__name__) 
-  
-# Setup url route which will calculate
-# total sum of array.
-@app.route('/arraysum', methods = ['POST']) 
-def sum_of_array(): 
-    data = request.get_json() 
-    print(data)
-  
-    # Data variable contains the 
-    # data from the node server
-    ls = data['array'] 
-    result = sum(ls) # calculate the sum
-  
-    # Return data in json format 
-    return json.dumps({"result":result})
-   
-if __name__ == "__main__": 
-    app.run(port=5000)
+
+app = Flask(__name__)
+app.config['SECRET_KEY'] = 'secret!'
+CORS(app,resources={r"/*":{"origins":"*"}})
+socketio = SocketIO(app,cors_allowed_origins="*")
+
+@app.route("/http-call")
+def http_call():
+    """return JSON with string data as the value"""
+    data = {'data':'This text was fetched using an HTTP call to server on render'}
+    return jsonify(data)
+
+@socketio.on("connect")
+def connected():
+    """event listener when client connects to the server"""
+    print(request.sid)
+    print("client has connected")
+    emit("connect",{"data":f"id: {request.sid} is connected"})
+
+@socketio.on('data')
+def handle_message(data):
+    """event listener when client types a message"""
+    print("data from the front end: ",str(data))
+    emit("data",{'data':data,'id':request.sid},broadcast=True)
+
+@socketio.on("disconnect")
+def disconnected():
+    """event listener when client disconnects to the server"""
+    print("user disconnected")
+    emit("disconnect",f"user {request.sid} disconnected",broadcast=True)

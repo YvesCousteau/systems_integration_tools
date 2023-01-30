@@ -38,24 +38,19 @@ post.functions(app,db)
 del.functions(app,db)
 patch.functions(app,db)
 
-app.post("/arraysum", (req, res) => {
-  
-    // Retrieve array form post body
-    var array = req.body.array;  
-    console.log(array);
-  
-    // Calculate sum
-    var sum = 0;
-    for (var i = 0; i < array.length; i++) {
-        if (isNaN(array[i])) {
-            continue;
-        }
-        sum += array[i];
+app.post("/api/function/:name", (req, res) => {
+    var data = {
+        name: req.body.name,
     }
-    console.log(sum);
-  
-    // Return json response
-    res.json({ result: sum });
+    try {
+        exec('python3 ../../uart/sender.py A')
+    } catch {
+        console.log("error");
+    }
+    res.json({
+        message: data.name + " is running ..."
+    });
+    
 });
 
 get.rest(app)
