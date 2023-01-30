@@ -42,10 +42,8 @@ export default function Function(props) {
         if(id) {
             console.log("load functions");
             Api.getFunctions(setFunctions,id);
-        } else {
-            console.log("load devices");
-            Api.getDevices(setDevices);
         }
+        Api.getDevices(setDevices);
     }, [created,currentFunction]);
     return(
         <div className="mx-8">
@@ -64,6 +62,7 @@ export default function Function(props) {
                         functions.map((fct) => 
                             <Item 
                             function={fct}
+                            devices={devices}
                             currentFunction={currentFunction}
                             setCurrentFunction={setCurrentFunction}/>)
                     ):(
@@ -87,6 +86,7 @@ function Item(props) {
     const [deleted, setDeleted] = useState(false);
 
     const [inputName, setInputName] = useState('');
+    const [inputDevice, setInputDevice] = useState('');
     const [inputCmd, setInputCmd] = useState('');
     
     let list = []
@@ -96,7 +96,7 @@ function Item(props) {
         if(updated) {
             let body = {
                 name:inputName,
-                device:props.function.device,
+                device:inputDevice,
                 cmd:inputCmd
             };
             Api.updateFunction(props.function.id,body);
@@ -123,7 +123,7 @@ function Item(props) {
                         </p>
                         <Link to={"/"} className="flex justify-center btn btn-classic ">Devices</Link>
                     </Paper>
-                    <UploadModal modal={modalUpdate} setModal={setModalUpdate} setInputCmd={setInputCmd} setInputName={setInputName} setUpdated={setUpdated} />
+                    <UploadModal modal={modalUpdate} setModal={setModalUpdate} setInputCmd={setInputCmd} setInputName={setInputName} setUpdated={setUpdated} devices={props.devices} setInputDevice={setInputDevice}/>
                 </div>
             )}
         </div>
@@ -161,9 +161,16 @@ function UploadModal(props) {
             open={props.modal}
             setOpen={props.setModal}
             title="Update"
-            subtitle="Update your device">
+            subtitle="Update your function">
             <div className='bg-gray-300 py-4 rounded-[12px] px-4 mx-6 grid grid-cols-1 gap-4'>
-                <Input label="Commande :" placeholder="Text..." value={props.setInputName}/>
+                <Input label="Name :" placeholder="Text..." value={props.setInputName}/>
+                <div className="grid grid-cols-4">
+                    <p className="self-center font-semibold text-lg text-gray-800">Device :&nbsp;</p>
+                    <div className=" col-span-3 relative rounded-md shadow-sm h-full">
+                        <ListBox data={props.devices} device={props.setInputDevice}/>
+                    </div>
+                </div>
+                
                 <Input label="Commande :" placeholder="Text..." value={props.setInputCmd}/>
                 <button className='btn btn-open w-32 mx-auto' onClick={() => props.setUpdated(true)}>Send</button>
             </div>
