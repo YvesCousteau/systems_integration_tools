@@ -66,9 +66,36 @@ export function updateDevice(id,body) {
     }
 }
 
+export function updateFunction(id,body) {
+    try {
+        let result = fetch("/api/function/"+id, {
+            method: 'PATCH',
+            headers: {
+                Accept: 'application.json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        })
+        result.then((sucess) => { console.log(sucess) })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 export function deleteDevice(id) {
     try {
         let result = fetch("/api/device/"+id, {
+            method: 'DELETE'
+        })
+        result.then((sucess) => { console.log(sucess) })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export function deleteFunction(id) {
+    try {
+        let result = fetch("/api/function/"+id, {
             method: 'DELETE'
         })
         result.then((sucess) => { console.log(sucess) })
@@ -105,13 +132,5 @@ export function creatFunction(body) {
     }
 }
 
-export function deleteFunction(id) {
-    try {
-        let result = fetch("/api/function/"+id, {
-            method: 'DELETE'
-        })
-        result.then((sucess) => { console.log(sucess) })
-    } catch (error) {
-        console.log(error);
-    }
-}
+
+

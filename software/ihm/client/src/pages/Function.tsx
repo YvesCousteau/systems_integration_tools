@@ -3,18 +3,23 @@ import Input from "../components/Input";
 import Modal from "../components/Modal";
 import * as Api from '../Api';
 import ListBox from "../components/ListBox";
-import {useParams} from "react-router-dom";
+import {useParams, Link} from "react-router-dom";
+
 import Paper from "../components/Paper";
+
 export default function Function(props) {
     let { id } = useParams();
     const [modalAdd, setModalAdd] = useState(false);
+
     const [created, setCreated] = useState(false);
+
     const [functions, setFunctions] = useState(null);
     const [devices, setDevices] = useState(null);
+
     const [inputName, setInputName] = useState('');
     const [inputDevice, setInputDevice] = useState('');
     const [inputCmd, setInputCmd] = useState('');
-    const [inputValue, setInputValue] = useState('');
+
     const [currentFunction, setCurrentFunction] = useState(null);
 
     useEffect(() => {
@@ -27,7 +32,6 @@ export default function Function(props) {
                 name:inputName,
                 device:device,
                 cmd:inputCmd,
-                value:inputValue,
             }
             console.log(body);
             
@@ -69,28 +73,7 @@ export default function Function(props) {
                         setCurrentFunction={setCurrentFunction}/>)}
                 </div>
             </div>
-            <Modal
-                open={modalAdd}
-                setOpen={setModalAdd}
-                title="Add"
-                subtitle="Setup your device">
-                <div className='bg-gray-300 py-4 rounded-[12px] px-4 mx-6 grid grid-cols-1 gap-4'>
-                    <Input label="Name :" placeholder="Text..." value={setInputName}/>
-                    <div className="grid grid-cols-4">
-                        <p className="self-center text-lg font-medium text-gray-700">Device :</p>
-                        {id && <p className="text-lg font-semibold text-gray-800">{id}</p>}
-                        {id === undefined && devices && 
-                            <div className="col-span-3 relative rounded-md shadow-sm h-full">
-                                <ListBox data={devices} device={setInputDevice}/>
-                            </div>
-                        }
-                    </div>
-                    
-                    <Input label="Command :" placeholder="Text..." value={setInputCmd}/>
-                    <Input label="Value :" placeholder="(optional)" value={setInputValue}/>
-                    <button className='btn btn-open w-32 mx-auto' onClick={() => setCreated(true)}>Send</button>
-                </div>
-            </Modal>
+            <AddModal modal={modalAdd} setModal={setModalAdd} setInputName={setInputName} setInputDevice={setInputDevice} setInputCmd={setInputCmd} id={id} devices={devices} setCreated={setCreated}/>
         </div>
         
     );
@@ -99,17 +82,24 @@ export default function Function(props) {
 function Item(props) {
     const [modalRun, setModalRun] = useState(false);
     const [modalUpdate, setModalUpdate] = useState(false);
+
     const [updated, setUpdated] = useState(false);
     const [deleted, setDeleted] = useState(false);
+
     const [inputName, setInputName] = useState('');
+    const [inputCmd, setInputCmd] = useState('');
     
     let list = []
     if (props.function !== null) {list = ["Function Number : 0"];}
 
     useEffect(() => {
         if(updated) {
-            let body = {name:inputName};
-            Api.updateDevice(props.function.id,body);
+            let body = {
+                name:inputName,
+                device:props.function.device,
+                cmd:inputCmd
+            };
+            Api.updateFunction(props.function.id,body);
             props.setCurrentFunction(!props.currentFunction);
             setUpdated(false);
             setModalUpdate(false);
@@ -119,14 +109,64 @@ function Item(props) {
             props.setCurrentFunction(!props.currentFunction);
             setDeleted(false);
         }
-    }, [updated,deleted,inputName,props]);
+    }, [updated,deleted]);
     return(
         <div className=''>
             {props.function !== null && (
                 <div className=''>
-                    <Paper title={props.function.name} deleted={setDeleted} modalUpdate={setModalUpdate} modalRun={setModalRun} list={list}/>
+                    <Paper title={"Function : "+props.function.name} deleted={setDeleted} modalUpdate={setModalUpdate}>
+                        <p className="font-semibold text-gray-800 pb-1">
+                            {"Device : " + props.function.device}
+                        </p>
+                        <p className="font-semibold text-gray-800 pb-2">
+                            {"Commande : " + props.function.cmd}
+                        </p>
+                        <Link to={"/"} className="flex justify-center btn btn-classic ">Devices</Link>
+                    </Paper>
+                    <UploadModal modal={modalUpdate} setModal={setModalUpdate} setInputCmd={setInputCmd} setInputName={setInputName} setUpdated={setUpdated} />
                 </div>
             )}
         </div>
+    );
+}
+
+function AddModal(props) {
+    return (
+        <Modal
+            open={props.modal}
+            setOpen={props.setModal}
+            title="Add"
+            subtitle="Setup your device">
+            <div className='bg-gray-300 py-4 rounded-[12px] px-4 mx-6 grid grid-cols-1 gap-4'>
+                <Input label="Name :" placeholder="Text..." value={props.setInputName}/>
+                <div className="grid grid-cols-4">
+                    <p className="self-center text-lg font-medium text-gray-700">Device :</p>
+                    {props.id && <p className="text-lg font-semibold text-gray-800">{props.id}</p>}
+                    {props.id === undefined && props.devices && 
+                        <div className="col-span-3 relative rounded-md shadow-sm h-full">
+                            <ListBox data={props.devices} device={props.setInputDevice}/>
+                        </div>
+                    }
+                </div>
+                <Input label="Command :" placeholder="Text..." value={props.setInputCmd}/>
+                <button className='btn btn-open w-32 mx-auto' onClick={() => props.setCreated(true)}>Send</button>
+            </div>
+        </Modal>
+    );
+}
+
+function UploadModal(props) {
+    return (
+        <Modal
+            open={props.modal}
+            setOpen={props.setModal}
+            title="Update"
+            subtitle="Update your device">
+            <div className='bg-gray-300 py-4 rounded-[12px] px-4 mx-6 grid grid-cols-1 gap-4'>
+                <Input label="Commande :" placeholder="Text..." value={props.setInputName}/>
+                <Input label="Commande :" placeholder="Text..." value={props.setInputCmd}/>
+                <button className='btn btn-open w-32 mx-auto' onClick={() => props.setUpdated(true)}>Send</button>
+            </div>
+        </Modal>
     );
 }

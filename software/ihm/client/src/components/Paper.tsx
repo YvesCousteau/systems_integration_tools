@@ -1,8 +1,9 @@
+import { Children } from "react";
 export default function Paper(props) {
     return (
         <div className="rounded-[14px] shadow-md px-3 py-3 bg-gray-300 mx-auto w-80">
             <div className='flex justify-between w-full mb-1'>
-                <p className="font-semibold text-gray-800 pb-1">
+                <p className=" self-center font-semibold text-gray-800 pb-1">
                     {props.title}
                 </p>
                 <div>
@@ -20,18 +21,7 @@ export default function Paper(props) {
                 </div>
                 
             </div>
-            {props.list.map(function (item, index) {
-                return <p className="font-semibold text-gray-800 pb-1">{item}</p>;
-            })}
-            <div className="grid grid-cols-2 gap-4">
-                <button className="mt-1 btn btn-classic w-full" onClick={() => props.modalRun(true)}>
-                    List
-                </button>
-                <button className="mt-1 btn btn-classic w-full" onClick={() => props.modalRun(true)}>
-                    Detail
-                </button>
-            </div>
-            
+            {props.children}
         </div>
     );
 }

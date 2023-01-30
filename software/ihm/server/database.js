@@ -15,10 +15,8 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name text UNIQUE,
                 device text,
-                cmd text UNIQUE,
-                value integer,
-                CONSTRAINT name_unique UNIQUE (name),
-                CONSTRAINT cmd_unique UNIQUE (cmd)
+                cmd text,
+                CONSTRAINT name_unique UNIQUE (name)
             )`,
             (err) => {
                 if (err) {

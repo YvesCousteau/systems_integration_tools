@@ -3,7 +3,7 @@ import Input from "../components/Input";
 import Modal from "../components/Modal";
 import Paper from "../components/Paper";
 import * as Api from '../Api';
-import Example from "../components/ListBox";
+import { Link } from "react-router-dom";
 
 export default function Device(props) {
     const [modalAdd, setModalAdd] = useState(false);
@@ -39,35 +39,42 @@ export default function Device(props) {
                     )}
                 </div>
             </div>
-            <Modal
-                open={modalAdd}
-                setOpen={setModalAdd}
-                title="Add"
-                subtitle="Setup your device">
-                <div className='bg-gray-300 py-4 rounded-[12px] px-4 mx-6 grid grid-cols-1 gap-4'>
-                    <Input label="Name :" placeholder="Text..." value={setInputName}/>
-                    <button className='btn btn-open w-32 mx-auto' onClick={() => setCreated(true)}>Send</button>
-                </div>
-            </Modal>
+            <AddModal modal={modalAdd} setModal={setModalAdd} setInputName={setInputName} setCreated={setCreated}/>
         </div>
         
     );
 }
 
 function Item(props) {
-    const [modalRun, setModalRun] = useState(false);
     const [modalUpdate, setModalUpdate] = useState(false);
+
     const [updated, setUpdated] = useState(false);
     const [deleted, setDeleted] = useState(false);
+    
     const [inputName, setInputName] = useState('');
     
+    const [functions, setFunctions] = useState(null);
+
     let list = []
     if (props.device !== null) {list = ["Function Number : 0"];}
 
     useEffect(() => {
+        
         if(updated) {
-            let body = {name:inputName};
+            let body = {
+                name:inputName,
+            };
+            
             Api.updateDevice(props.device.id,body);
+            for (const fct of functions) {
+                let body = {
+                    name:fct.name,
+                    device:inputName,
+                    cmd:fct.cmd
+                };
+                Api.updateFunction(fct.id,body);
+            }
+            
             props.setCurrentDevice(!props.currentDevice);
             setUpdated(false);
             setModalUpdate(false);
@@ -77,65 +84,51 @@ function Item(props) {
             props.setCurrentDevice(!props.currentDevice);
             setDeleted(false);
         }
-    }, [updated,deleted,inputName,props]);
+        Api.getFunctions(setFunctions,props.device.name)
+    }, [updated,deleted,props.device]);
     return(
         <div className=''>
             {props.device !== null && (
                 <div className=''>
-                    <Paper title={props.device.name} deleted={setDeleted} modalUpdate={setModalUpdate} modalRun={setModalRun} list={list}/>
-                    <Modal
-                        open={modalRun}
-                        setOpen={setModalRun}
-                        title={props.device.name}
-                        subtitle="La j ai r">
-                        <div className='bg-gray-300 py-4 rounded-[12px] mx-4'>
-                            <div className="grid grid-cols-4 gap-2 mx-8 mb-4">
-                                <p className="self-center text-lg font-semibold color-classic">
-                                    Function :&nbsp;
-                                </p>
-                                <div className="col-span-2">
-                                    <Example />
-                                </div>
-                                
-                                <p className="self-center text-lg font-semibold color-classic">
-                                    &nbsp;{">> Result"}
-                                </p>
-                            </div>
-                            <div className="grid grid-cols-4 gap-2 mx-8 mb-4">
-                                <p className="self-center text-lg font-semibold color-classic">
-                                    Detail :&nbsp;
-                                </p>
-                                <div className="col-span-2">
-                                    <Example />
-                                </div>
-                                
-                                <p className="self-center text-lg font-semibold color-classic">
-                                    &nbsp;{">> Result"}
-                                </p>
-                            </div>
-                            <div className='grid grid-cols-3 w-full'>
-                                <div className='mx-auto text-lg font-semibold'>Result :</div>
-                                <button className='w-24 btn btn-open' onClick={(e) => (e)}>
-                                    Success
-                                </button>
-                                <button className='w-24 btn btn-close' onClick={(e) => (e)}>
-                                    Fail
-                                </button>
-                            </div>
-                        </div>
-                    </Modal>
-                    <Modal
-                        open={modalUpdate}
-                        setOpen={setModalUpdate}
-                        title="Update"
-                        subtitle="Update your device">
-                        <div className='bg-gray-300 py-4 rounded-[12px] px-4 mx-6 grid grid-cols-1 gap-4'>
-                            <Input label="Name :" placeholder="Text..." value={setInputName}/>
-                            <button className='btn btn-open w-32 mx-auto' onClick={() => setUpdated(true)}>Send</button>
-                        </div>
-                    </Modal>
+                    <Paper title={"Device : "+props.device.name} deleted={setDeleted} modalUpdate={setModalUpdate}>
+                        <p className="font-semibold text-gray-800 pb-2">
+                            {functions && "Functions Numbers : "+functions.length}
+                        </p>
+                        <Link to={"/functions/"+props.device.name} className="flex justify-center btn btn-classic ">Functions</Link>
+                    </Paper>
+                    <UploadModal modal={modalUpdate} setModal={setModalUpdate} setInputName={setInputName} setUpdated={setUpdated}/>
                 </div>
             )}
         </div>
+    );
+}
+
+function AddModal(props) {
+    return (
+        <Modal
+            open={props.modal}
+            setOpen={props.setModal}
+            title="Add"
+            subtitle="Setup your device">
+            <div className='bg-gray-300 py-4 rounded-[12px] px-4 mx-6 grid grid-cols-1 gap-4'>
+                <Input label="Name :" placeholder="Text..." value={props.setInputName}/>
+                <button className='btn btn-open w-32 mx-auto' onClick={() => props.setCreated(true)}>Send</button>
+            </div>
+        </Modal>
+    );
+}
+
+function UploadModal(props) {
+    return (
+        <Modal
+            open={props.modal}
+            setOpen={props.setModal}
+            title="Update"
+            subtitle="Update your device">
+            <div className='bg-gray-300 py-4 rounded-[12px] px-4 mx-6 grid grid-cols-1 gap-4'>
+                <Input label="Name :" placeholder="Text..." value={props.setInputName}/>
+                <button className='btn btn-open w-32 mx-auto' onClick={() => props.setUpdated(true)}>Send</button>
+            </div>
+        </Modal>
     );
 }
