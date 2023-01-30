@@ -38,12 +38,12 @@ post.functions(app,db)
 del.functions(app,db)
 patch.functions(app,db)
 
-app.post("/api/function/:name", (req, res) => {
+app.post("/api/run/:name", (req, res) => {
     var data = {
         name: req.body.name,
     }
     try {
-        exec('python3 ../../uart/sender.py A')
+        exec('python3 ../../udp/client.py')
     } catch {
         console.log("error");
     }
