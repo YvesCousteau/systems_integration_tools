@@ -9,18 +9,10 @@ export default function Device(props) {
     const [modalAdd, setModalAdd] = useState(false);
     const [devices, setDevices] = useState(null);
     const [currentDevice, setCurrentDevice] = useState(null);
-    const [created, setCreated] = useState(false);
-    const [inputName, setInputName] = useState('');
+    const [inputName, setInputName] = useState(null);
     useEffect(() => {
-        if(created) {
-            console.log("Creat");
-            let body = {name:inputName}
-            Api.creatDevice(body)
-            setModalAdd(false)
-            setCreated(false)
-        }
         Api.getDevices(setDevices);
-    }, [created,currentDevice]);
+    }, [currentDevice]);
 
     
     return(
@@ -39,7 +31,7 @@ export default function Device(props) {
                     )}
                 </div>
             </div>
-            <AddModal modal={modalAdd} setModal={setModalAdd} setInputName={setInputName} setCreated={setCreated}/>
+            <AddModal modal={modalAdd} setModal={setModalAdd} />
         </div>
         
     );
@@ -92,6 +84,19 @@ function Item(props) {
 }
 
 function AddModal(props) {
+    
+    const [inputName, setInputName] = useState(null);
+    const [created, setCreated] = useState(false);
+    useEffect(() => {
+        if(created) {
+            console.log("Creat");
+            let body = {name:inputName}
+            Api.creatDevice(body)
+            props.setModal(false)
+            setCreated(false)
+        }
+    }, [created]);
+    
     return (
         <Modal
             open={props.modal}
@@ -99,8 +104,8 @@ function AddModal(props) {
             title="Add"
             subtitle="Setup your device">
             <div className='bg-gray-300 py-4 rounded-[12px] px-4 mx-6 grid grid-cols-1 gap-4'>
-                <Input label="Name :" placeholder="Text..." onChange={props.setInputName}/>
-                <button className='btn btn-open w-32 mx-auto' onClick={() => props.setCreated(true)}>Send</button>
+                <Input label="Name :" placeholder="Text..." onChange={setInputName}/>
+                <button className='btn btn-open w-32 mx-auto' disabled={!inputName} onClick={() => setCreated(true)}>Send</button>
             </div>
         </Modal>
     );

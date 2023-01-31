@@ -5,8 +5,6 @@ import uart
 
 port = 20001
 bufferSize = 1024
-msgFromServer = sys.argv[1]
-bytesToSend = str.encode(msgFromServer)
 
 # Create a datagram socket
 sock = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)

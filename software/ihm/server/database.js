@@ -13,9 +13,9 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
         db.run(
             `CREATE TABLE functions (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name text UNIQUE,
-                device text,
-                cmd text,
+                name text UNIQUE NOT NULL,
+                device text NOT NULL,
+                cmd text NOT NULL,
                 CONSTRAINT name_unique UNIQUE (name)
             )`,
             (err) => {
@@ -30,7 +30,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
         db.run(
             `CREATE TABLE devices (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name text UNIQUE,
+                name text UNIQUE NOT NULL,
                 CONSTRAINT name_unique UNIQUE (name)
             )`,
             (err) => {
