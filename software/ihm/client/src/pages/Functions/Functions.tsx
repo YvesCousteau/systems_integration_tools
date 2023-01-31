@@ -111,7 +111,13 @@ function Item(props) {
             setDeleted(false);
         }
         if(ran) {
-            Api.exec("sexe")
+            
+            if(inputValue) {
+                Api.exec(inputValue)
+            } else {
+                Api.exec("sexe")
+            }
+            
             setModalRun(false);
             setRan(false);
         }

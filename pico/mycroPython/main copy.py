@@ -20,25 +20,41 @@ class Main:
         self.display.show()
         # Fonctions
         self.loop()
-
     def loop(self):
         b = None
         msg = ""
-        stop = False
         while True:
             if self.uart.any():
-                b = self.uart.read()
+                b = self.uart.read(1)
                 print(b)
                 try:
                     msg = b.decode()
                     print("UART >> " + msg)
-
-                    self.max7219_fct(msg,3)
                 except:
-                    print("UART >> Error")
+                    pass
+            if msg != "":
+                if msg == str("A"):
+                    self.max7219_fct("UART",3,msg)
+                if msg == str("C"):
+                    self.max7219_fct("SEEEEEXE",3,msg)
+            else:
+                if self.button[0].value() == 0:
+                    self.led_fct(0)
+                if self.button[1].value() == 0:
+                    self.led_fct(1)
+                if self.button[2].value() == 0:
+                    self.led_fct(2) 
+                if self.button[3].value() == 0:
+                    self.max7219_fct("Max7219",3, msg)
                     
-
-    def max7219_fct(self,word,button):
+            time.sleep(0.2)
+    def led_fct(self,num):
+        # To set #
+        self.led[num].value(1)
+        time.sleep_ms(250)
+        self.led[num].value(0)
+        time.sleep_ms(250)
+    def max7219_fct(self,word,button,uart):
         # MAX7219 #
         self.display.brightness(1)
         scrolling_message = word
@@ -53,13 +69,25 @@ class Main:
                 self.display.text(scrolling_message, x, 0, 1)
                 self.display.show()
                 time.sleep(0.1)
-
-                # Stop condition not working for now
                 if self.button[button].value() == 0:
+                    uart = ""
                     self.display.fill(0)
                     self.display.show()
                     return
-
+    def uart_fct(self):
+        b = None
+        msg = ""
+        while True:
+            time.sleep(1)
+            print("-------")
+            if self.uart.any():
+                b = self.uart.read()
+                print(b)
+                try:
+                    msg = b.decode()
+                    print(msg)
+                except:
+                    pass
                 
 if __name__ == '__main__':
     main = Main()

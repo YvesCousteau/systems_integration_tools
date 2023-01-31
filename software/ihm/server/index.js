@@ -40,7 +40,8 @@ patch.functions(app,db)
 
 app.post("/api/run/:name", (req, res) => {
     try {
-        exec('python3 ../../udp/client.py')
+        console.log(req.params.name);
+        exec('python3 ../../udp/client.py 20001 '+req.params.name)
     } catch {
         console.log("error");
     }
