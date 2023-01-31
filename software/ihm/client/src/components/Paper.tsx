@@ -3,7 +3,7 @@ export default function Paper(props) {
     return (
         <div className="rounded-[14px] shadow-md px-3 py-3 bg-gray-300 mx-auto w-80">
             <div className='flex justify-between w-full mb-1'>
-                <p className=" self-center font-semibold text-gray-800 pb-1">
+                <p className=" self-center text-classic pb-1">
                     {props.title}
                 </p>
                 <div>

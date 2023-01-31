@@ -10,16 +10,12 @@ import Paper from "../../components/Paper";
 export default function Functions(props) {
     let { id } = useParams();
     const [modalAdd, setModalAdd] = useState(false);
-
     const [created, setCreated] = useState(false);
-
     const [functions, setFunctions] = useState(null);
     const [devices, setDevices] = useState(null);
-
     const [inputName, setInputName] = useState('');
     const [inputDevice, setInputDevice] = useState('');
     const [inputCmd, setInputCmd] = useState('');
-
     const [currentFunction, setCurrentFunction] = useState(null);
 
     useEffect(() => {
@@ -28,13 +24,7 @@ export default function Functions(props) {
             let device;
             if(id) {device = id}
             else {device = inputDevice}
-            let body = {
-                name:inputName,
-                device:device,
-                cmd:inputCmd,
-            }
-            console.log(body);
-            
+            let body = {name:inputName,device:device,cmd:inputCmd,}
             Api.creatFunction(body)
             setModalAdd(false)
             setCreated(false)
@@ -83,11 +73,9 @@ export default function Functions(props) {
 function Item(props) {
     const [modalRun, setModalRun] = useState(false);
     const [modalUpdate, setModalUpdate] = useState(false);
-
     const [updated, setUpdated] = useState(false);
     const [deleted, setDeleted] = useState(false);
     const [ran, setRan] = useState(false);
-
     const [inputName, setInputName] = useState(props.function.name);
     const [inputDevice, setInputDevice] = useState(props.function.device);
     const [inputCmd, setInputCmd] = useState(props.function.cmd);
@@ -95,11 +83,7 @@ function Item(props) {
 
     useEffect(() => {
         if(updated) {
-            let body = {
-                name:inputName,
-                device:inputDevice,
-                cmd:inputCmd
-            };
+            let body = {name:inputName,device:inputDevice,cmd:inputCmd};
             Api.updateFunction(props.function.id,body);
             props.setCurrentFunction(!props.currentFunction);
             setUpdated(false);
@@ -111,13 +95,8 @@ function Item(props) {
             setDeleted(false);
         }
         if(ran) {
-            
-            if(inputValue) {
-                Api.exec(inputValue)
-            } else {
-                Api.exec("sexe")
-            }
-            
+            if(inputValue) {Api.exec(inputValue)} 
+            else {Api.exec("sexe")}
             setModalRun(false);
             setRan(false);
         }
@@ -127,12 +106,8 @@ function Item(props) {
             {props.function !== null && (
                 <div className=''>
                     <Paper title={"Function : "+props.function.name} deleted={setDeleted} modalUpdate={setModalUpdate}>
-                        <p className="font-semibold text-gray-800 pb-1">
-                            {"Device : " + props.function.device}
-                        </p>
-                        <p className="font-semibold text-gray-800 pb-2">
-                            {"Commande : " + props.function.cmd}
-                        </p>
+                        <p className="text-classic pb-1">{"Device : " + props.function.device}</p>
+                        <p className="text-classic pb-2">{"Commande : " + props.function.cmd}</p>
                         <button onClick={() => setModalRun(true)} className="w-full btn btn-classic ">Run</button>
                     </Paper>
                     <RunModal 
@@ -168,7 +143,7 @@ function AddModal(props) {
             <div className='bg-gray-300 py-4 rounded-[12px] px-4 mx-6 grid grid-cols-1 gap-4'>
                 <Input label="Name :" placeholder="Text..." onChange={props.setInputName}/>
                 <div className="grid grid-cols-4">
-                    <p className="self-center text-lg font-medium text-gray-700">Device :</p>
+                    <p className="self-center text-classic">Device :</p>
                     {id && <p className="text-lg font-semibold text-gray-800">{id}</p>}
                     {!id && props.devices && 
                         <div className="col-span-3 relative rounded-md shadow-sm h-full">
@@ -194,7 +169,7 @@ function UploadModal(props) {
             <div className='bg-gray-300 py-4 rounded-[12px] px-4 mx-6 grid grid-cols-1 gap-4'>
                 <Input label="Name :" placeholder="Text..." onChange={props.setInputName} value={props.inputName}/>
                 <div className="grid grid-cols-4">
-                    <p className="self-center font-semibold text-lg text-gray-800">Device :&nbsp;</p>
+                    <p className="self-center text-classic">Device :&nbsp;</p>
                     <div className=" col-span-3 relative rounded-md shadow-sm h-full">
                         <ListBox data={props.devices} device={props.setInputDevice} init={id}/>
                     </div>
