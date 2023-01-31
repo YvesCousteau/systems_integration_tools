@@ -66,6 +66,10 @@
 }
 
 /* color */
-.color-classic {
-    @apply text-gray-800;
+.text-classic {
+    @apply font-semibold text-lg text-gray-800;
+}
+
+.text-classic-big {
+    @apply text-gray-800 font-bold text-2xl;
 }
