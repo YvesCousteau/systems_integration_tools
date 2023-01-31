@@ -85,7 +85,7 @@ function Item(props) {
 
 function AddModal(props) {
     
-    const [inputName, setInputName] = useState(null);
+    const [inputName, setInputName] = useState('');
     const [created, setCreated] = useState(false);
     useEffect(() => {
         if(created) {
@@ -105,7 +105,7 @@ function AddModal(props) {
             subtitle="Setup your device">
             <div className='bg-gray-300 py-4 rounded-[12px] px-4 mx-6 grid grid-cols-1 gap-4'>
                 <Input label="Name :" placeholder="Text..." onChange={setInputName}/>
-                <button className='btn btn-open w-32 mx-auto' disabled={!inputName} onClick={() => setCreated(true)}>Send</button>
+                <button className='btn btn-open w-32 mx-auto' disabled={inputName === ''} onClick={() => setCreated(true)}>Send</button>
             </div>
         </Modal>
     );

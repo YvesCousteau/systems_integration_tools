@@ -65,6 +65,11 @@
     @apply bg-green-900;
 }
 
+.btn-open:disabled {
+    @apply bg-green-900;
+}
+
+
 /* color */
 .text-classic {
     @apply font-semibold text-lg text-gray-800;
