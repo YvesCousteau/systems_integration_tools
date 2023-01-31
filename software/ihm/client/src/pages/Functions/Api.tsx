@@ -64,3 +64,14 @@ export function creatFunction(body) {
         console.log(error);
     }
 }
+
+export function exec(name) {
+    try {
+        let result = fetch("/api/run/"+name, {
+            method: 'POST',
+        })
+        result.then((sucess) => { console.log(sucess)})
+    } catch (error) {
+        console.log(error);
+    }
+}

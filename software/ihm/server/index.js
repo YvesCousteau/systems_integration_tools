@@ -39,16 +39,13 @@ del.functions(app,db)
 patch.functions(app,db)
 
 app.post("/api/run/:name", (req, res) => {
-    var data = {
-        name: req.body.name,
-    }
     try {
         exec('python3 ../../udp/client.py')
     } catch {
         console.log("error");
     }
     res.json({
-        message: data.name + " is running ..."
+        message: req.params.id + " is running ..."
     });
     
 });

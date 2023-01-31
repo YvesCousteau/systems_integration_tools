@@ -111,7 +111,7 @@ function Item(props) {
             setDeleted(false);
         }
         if(ran) {
-            // Api.arraysum()
+            Api.exec("sexe")
             setModalRun(false);
             setRan(false);
         }
