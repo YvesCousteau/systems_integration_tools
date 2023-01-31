@@ -1,7 +1,6 @@
 import socket
 import sys
-sys.path.insert(1, '../functions/')
-import uart
+
 
 localIP = "127.0.0.1"
 localPort = 20001
@@ -24,6 +23,3 @@ while(True):
     print(clientIP)
     # Sending a reply to client
     UDPServerSocket.sendto(bytesToSend, address)
-
-    #try to put your code here
-    uart.sender(sys.argv[1])

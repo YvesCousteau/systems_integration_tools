@@ -1,24 +1,28 @@
 import socket
 import sys
+sys.path.insert(1, '../functions/')
+import uart
 
-localIP = "127.0.0.1"
-localPort = 20001
+port = 20001
 bufferSize = 1024
 msgFromServer = sys.argv[1]
 bytesToSend = str.encode(msgFromServer)
+
 # Create a datagram socket
-UDPServerSocket = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
+sock = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
+print("Socket created ...")
 # Bind to address and ip
-UDPServerSocket.bind((localIP, localPort))
-print("UDP server up and listening")
+sock.bind(('', port))
+sock.listen(5)
+print("Server up and listening")
 # Listen for incoming datagrams
 while(True):
-    bytesAddressPair = UDPServerSocket.recvfrom(bufferSize)
-    message = bytesAddressPair[0].decode()
-    address = bytesAddressPair[1]
-    clientMsg = "Message from Client >> {}".format(message)
-    clientIP  = "Client IP Address:{}".format(address)
-    print(clientMsg)
-    print(clientIP)
-    # Sending a reply to client
-    UDPServerSocket.sendto(bytesToSend, address)
+    c, addr = sock.accept()
+    print('got connection from ', addr)
+
+    clientMsg = c.recv(bufferSize)
+    print("Json received -->", clientMsg)
+
+    c.close()
+    
+    uart.sender(clientMsg.value,clientMsg.stop)
