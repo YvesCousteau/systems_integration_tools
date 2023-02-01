@@ -5,6 +5,7 @@ import sys
 import queue
 
 def sender(queue):
+  msg = ''
   ser = serial.Serial(
   port='/dev/ttyS0', # Change this according to connection methods, e.g. /dev/ttyUSB0
   baudrate = 115200,
@@ -14,8 +15,11 @@ def sender(queue):
   timeout=1
   )
   while True:
-    data = queue.get()
-    print("On est laaaa " + data["value"])
-    #ser.write(msg.encode())
+    if(not queue.empty()):
+      data = queue.get()
+      msg = data["value"]
+
+    print(msg)
+    ser.write(msg.encode())
     time.sleep(1)
 

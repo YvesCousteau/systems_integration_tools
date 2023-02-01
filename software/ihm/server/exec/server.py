@@ -28,8 +28,6 @@ def server(queue):
         print(clientIP)
         queue.put(message)
 
-clientMsg = ""
-
 queue = queue.Queue()
 serv = threading.Thread(target=server, args=(queue,))
 function = threading.Thread(target=uart.sender, args=(queue,))
