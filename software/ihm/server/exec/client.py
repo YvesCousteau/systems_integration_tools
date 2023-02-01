@@ -2,7 +2,7 @@ import socket
 import sys
 import json 
 
-msgFromClient = {"value":"You're", "stop":False}
+msgFromClient = {"value":(sys.argv[2])}
 bytesToSend = json.dumps(msgFromClient).encode()
 
 serverAddressPort = (sys.argv[1], 20001)
