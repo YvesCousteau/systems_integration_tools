@@ -180,7 +180,7 @@ function RunModal(props) {
     useEffect(() => {
         if(ran) {
             if(inputValue) {Api.exec(inputValue)} 
-            else {Api.exec("sexe")}
+            else {Api.exec(inputValue)}
             props.setModal(false);
             setRan(false);
         }
