@@ -9,12 +9,9 @@ export default function Device(props) {
     const [modalAdd, setModalAdd] = useState(false);
     const [devices, setDevices] = useState(null);
     const [currentDevice, setCurrentDevice] = useState(null);
-    const [inputName, setInputName] = useState(null);
     useEffect(() => {
         Api.getDevices(setDevices);
     }, [currentDevice]);
-
-    
     return(
         <div className="mx-8">
             <div className="rounded-[14px] shadow-md bg-gray-200 px-4 py-4 mx-auto">
@@ -31,7 +28,11 @@ export default function Device(props) {
                     )}
                 </div>
             </div>
-            <AddModal modal={modalAdd} setModal={setModalAdd} />
+            <AddModal
+            modal={modalAdd} 
+            setModal={setModalAdd}
+            currentDevice={currentDevice}
+            setCurrentDevice={setCurrentDevice}/>
         </div>
         
     );
@@ -39,33 +40,17 @@ export default function Device(props) {
 
 function Item(props) {
     const [modalUpdate, setModalUpdate] = useState(false);
-    const [updated, setUpdated] = useState(false);
     const [deleted, setDeleted] = useState(false);
-    const [inputName, setInputName] = useState(props.device.name);
     const [functions, setFunctions] = useState(null);
-    let list = []
-    if (props.device !== null) {list = ["Function Number : 0"];}
 
     useEffect(() => {
-        
-        if(updated) {
-            let body = {name:inputName};
-            Api.updateDevice(props.device.id,body);
-            for (const fct of functions) {
-                let body = {name:fct.name,device:inputName,cmd:fct.cmd};
-                Api.updateFunction(fct.id,body);
-            }
-            props.setCurrentDevice(!props.currentDevice);
-            setUpdated(false);
-            setModalUpdate(false);
-        }
         if(deleted) {
             Api.deleteDevice(props.device.id);
             props.setCurrentDevice(!props.currentDevice);
             setDeleted(false);
         }
         Api.getFunctions(setFunctions,props.device.name)
-    }, [updated,deleted,props.device]);
+    }, [deleted]);
     return(
         <div className=''>
             {props.device !== null && (
@@ -76,7 +61,14 @@ function Item(props) {
                         </p>
                         <Link to={"/functions/"+props.device.name} className="flex justify-center btn btn-classic ">Functions</Link>
                     </Paper>
-                    <UploadModal modal={modalUpdate} setModal={setModalUpdate} setInputName={setInputName} inputName={inputName} setUpdated={setUpdated}/>
+                    <UpdateModal 
+                    modal={modalUpdate} 
+                    setModal={setModalUpdate}
+                    currentDevice={props.currentDevice}
+                    setCurrentDevice={props.setCurrentDevice}
+                    functions={functions}
+                    device={props.device}
+                    />
                 </div>
             )}
         </div>
@@ -84,7 +76,6 @@ function Item(props) {
 }
 
 function AddModal(props) {
-    
     const [inputName, setInputName] = useState('');
     const [created, setCreated] = useState(false);
     useEffect(() => {
@@ -92,6 +83,7 @@ function AddModal(props) {
             console.log("Creat");
             let body = {name:inputName}
             Api.creatDevice(body)
+            props.setCurrentDevice(!props.currentDevice);
             props.setModal(false)
             setCreated(false)
         }
@@ -111,7 +103,22 @@ function AddModal(props) {
     );
 }
 
-function UploadModal(props) {
+function UpdateModal(props) {
+    const [inputName, setInputName] = useState(props.device.name);
+    const [updated, setUpdated] = useState(false);
+    useEffect(() => {
+        if(updated) {
+            let body = {name:inputName};
+            Api.updateDevice(props.device.id,body);
+            for (const fct of props.functions) {
+                let body = {name:fct.name,device:inputName,cmd:fct.cmd};
+                Api.updateFunction(fct.id,body);
+            }
+            props.setCurrentDevice(!props.currentDevice);
+            props.setModal(false);
+            setUpdated(false);
+        }
+    }, [updated]);
     return (
         <Modal
             open={props.modal}
@@ -119,8 +126,8 @@ function UploadModal(props) {
             title="Update"
             subtitle="Update your device">
             <div className='bg-gray-300 py-4 rounded-[12px] px-4 mx-6 grid grid-cols-1 gap-4'>
-                <Input label="Name :" placeholder="Text..." onChange={props.setInputName} value={props.inputName}/>
-                <button className='btn btn-open w-32 mx-auto' onClick={() => props.setUpdated(true)}>Send</button>
+                <Input label="Name :" placeholder="Text..." onChange={setInputName} value={inputName}/>
+                <button className='btn btn-open w-32 mx-auto' onClick={() => setUpdated(true)}>Send</button>
             </div>
         </Modal>
     );
