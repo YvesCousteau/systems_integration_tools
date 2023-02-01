@@ -60,40 +60,20 @@ export default function Functions(props) {
 function Item(props) {
     const [modalRun, setModalRun] = useState(false);
     const [modalUpdate, setModalUpdate] = useState(false);
-    
-    const [deleted, setDeleted] = useState(false);
-    const [ran, setRan] = useState(false);
-    
-    const [inputValue, setInputValue] = useState('');
-
-    useEffect(() => {
-        if(deleted) {
-            Api.deleteFunction(props.function.id);
-            props.setCurrentFunction(!props.currentFunction);
-            setDeleted(false);
-        }
-        if(ran) {
-            if(inputValue) {Api.exec(inputValue)} 
-            else {Api.exec("sexe")}
-            setModalRun(false);
-            setRan(false);
-        }
-    }, [deleted,ran]);
+    const [modalDelete, setModalDelete] = useState(false);
     return(
         <div className=''>
             {props.function !== null && (
                 <div className=''>
-                    <Paper title={"Function : "+props.function.name} deleted={setDeleted} modalUpdate={setModalUpdate}>
+                    <Paper title={"Function : "+props.function.name} deleted={setModalDelete} modalUpdate={setModalUpdate}>
                         <p className="text-classic pb-1">{"Device : " + props.function.device}</p>
                         <p className="text-classic pb-2">{"Commande : " + props.function.cmd}</p>
                         <button onClick={() => setModalRun(true)} className="w-full btn btn-classic ">Run</button>
                     </Paper>
                     <RunModal 
                     modal={modalRun} 
-                    setModal={setModalRun} 
-                    setInputValue={setInputValue} 
-                    setRan={setRan} 
-                    cmd={props.function.cmd}/>
+                    setModal={setModalRun}
+                    function={props.function}/>
                     <UpdateModal 
                     modal={modalUpdate} 
                     setModal={setModalUpdate}
@@ -101,6 +81,12 @@ function Item(props) {
                     setCurrentFunction={props.setCurrentFunction}
                     function={props.function}
                     devices={props.devices} />
+                    <DeleteModal 
+                    modal={modalDelete} 
+                    setModal={setModalDelete}
+                    currentFunction={props.currentFunction}
+                    setCurrentFunction={props.setCurrentFunction}
+                    function={props.function}/>
                 </div>
             )}
         </div>
@@ -144,7 +130,7 @@ function AddModal(props) {
                     }
                 </div>
                 <Input label="Command :" placeholder="Text..." onChange={setInputCmd}/>
-                <button className='btn btn-open w-32 mx-auto' onClick={() => setCreated(true)}>Send</button>
+                <button className='btn btn-open w-32 mx-auto' disabled={inputName === '' || inputCmd === ''} onClick={() => setCreated(true)}>Send</button>
             </div>
         </Modal>
     );
@@ -182,17 +168,23 @@ function UpdateModal(props) {
                 </div>
                 
                 <Input label="Commande :" placeholder="Text..." onChange={setInputCmd} value={inputCmd}/>
-                <button className='btn btn-open w-32 mx-auto' onClick={() => setUpdated(true)}>Send</button>
+                <button className='btn btn-open w-32 mx-auto' disabled={inputName === '' || inputCmd === ''} onClick={() => setUpdated(true)}>Send</button>
             </div>
         </Modal>
     );
 }
 
 function RunModal(props) {
+    const [ran, setRan] = useState(false);
     const [inputValue, setInputValue] = useState('');
     useEffect(() => {
-        props.setInputValue(inputValue)
-    }, [inputValue]);
+        if(ran) {
+            if(inputValue) {Api.exec(inputValue)} 
+            else {Api.exec("sexe")}
+            props.setModal(false);
+            setRan(false);
+        }
+    }, [ran]);
     return (
         <Modal
             open={props.modal}
@@ -201,7 +193,31 @@ function RunModal(props) {
             subtitle="Update your function">
             <div className='bg-gray-300 py-4 rounded-[12px] px-4 mx-6 grid grid-cols-1 gap-4'>
                 <Input label="Value :" placeholder="Text..." onChange={setInputValue}/>
-                <button className='btn btn-open w-full mx-auto'  onClick={() => props.setRan(true)}>{"Run : "+props.cmd+" "+inputValue}</button>
+                <button className='btn btn-open w-full mx-auto'  disabled={inputValue === ''} onClick={() => setRan(true)}>{"Run : "+props.function.cmd+" "+inputValue}</button>
+            </div>
+        </Modal>
+    );
+}
+
+function DeleteModal(props) {
+    const [deleted, setDeleted] = useState(false);
+    useEffect(() => {
+        if(deleted) {
+            Api.deleteFunction(props.function.id);
+            props.setCurrentFunction(!props.currentFunction);
+            props.setModal(false)
+            setDeleted(false);
+        }
+    }, [deleted]);
+    
+    return (
+        <Modal
+            open={props.modal}
+            setOpen={props.setModal}
+            title="Remove"
+            subtitle="All functions associated with this devices will be remove">
+            <div className='bg-gray-300 py-4 rounded-[12px] px-4 mx-6 grid grid-cols-1 gap-4'>
+                <button className='btn btn-open w-32 mx-auto' onClick={() => setDeleted(true)}>Remove</button>
             </div>
         </Modal>
     );

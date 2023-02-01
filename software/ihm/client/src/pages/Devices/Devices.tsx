@@ -40,22 +40,17 @@ export default function Device(props) {
 
 function Item(props) {
     const [modalUpdate, setModalUpdate] = useState(false);
-    const [deleted, setDeleted] = useState(false);
+    const [modalDelete, setModalDelete] = useState(false);
     const [functions, setFunctions] = useState(null);
 
     useEffect(() => {
-        if(deleted) {
-            Api.deleteDevice(props.device.id);
-            props.setCurrentDevice(!props.currentDevice);
-            setDeleted(false);
-        }
         Api.getFunctions(setFunctions,props.device.name)
-    }, [deleted]);
+    }, []);
     return(
         <div className=''>
             {props.device !== null && (
                 <div className=''>
-                    <Paper title={"Device : "+props.device.name} deleted={setDeleted} modalUpdate={setModalUpdate}>
+                    <Paper title={"Device : "+props.device.name} deleted={setModalDelete} modalUpdate={setModalUpdate}>
                         <p className="text-classic pb-2">
                             {functions && "Functions Numbers : "+functions.length}
                         </p>
@@ -67,6 +62,13 @@ function Item(props) {
                     currentDevice={props.currentDevice}
                     setCurrentDevice={props.setCurrentDevice}
                     functions={functions}
+                    device={props.device}
+                    />
+                    <DeleteModal 
+                    modal={modalDelete} 
+                    setModal={setModalDelete}
+                    currentDevice={props.currentDevice}
+                    setCurrentDevice={props.setCurrentDevice}
                     device={props.device}
                     />
                 </div>
@@ -127,7 +129,31 @@ function UpdateModal(props) {
             subtitle="Update your device">
             <div className='bg-gray-300 py-4 rounded-[12px] px-4 mx-6 grid grid-cols-1 gap-4'>
                 <Input label="Name :" placeholder="Text..." onChange={setInputName} value={inputName}/>
-                <button className='btn btn-open w-32 mx-auto' onClick={() => setUpdated(true)}>Send</button>
+                <button className='btn btn-open w-32 mx-auto' disabled={inputName === ''} onClick={() => setUpdated(true)}>Send</button>
+            </div>
+        </Modal>
+    );
+}
+
+function DeleteModal(props) {
+    const [deleted, setDeleted] = useState(false);
+    useEffect(() => {
+        if(deleted) {
+            Api.deleteDevice(props.device.id);
+            props.setCurrentDevice(!props.currentDevice);
+            props.setModal(false)
+            setDeleted(false);
+        }
+    }, [deleted]);
+    
+    return (
+        <Modal
+            open={props.modal}
+            setOpen={props.setModal}
+            title="Remove"
+            subtitle="All functions associated with this devices will be remove">
+            <div className='bg-gray-300 py-4 rounded-[12px] px-4 mx-6 grid grid-cols-1 gap-4'>
+                <button className='btn btn-open w-32 mx-auto' onClick={() => setDeleted(true)}>Remove</button>
             </div>
         </Modal>
     );
