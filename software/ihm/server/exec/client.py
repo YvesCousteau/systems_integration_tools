@@ -5,7 +5,7 @@ import json
 msgFromClient = {"value":"You're", "stop":False}
 bytesToSend = json.dumps(msgFromClient).encode()
 
-serverAddressPort = ("192.168.1.23", 20001)
+serverAddressPort = (sys.argv[1], 20001)
 bufferSize = 1024
 # Create a socket at client side
 try:

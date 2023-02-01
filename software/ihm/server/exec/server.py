@@ -5,14 +5,14 @@ import uart
 
 port = 20001
 bufferSize = 1024
-ip = "192.168.1.23"
+ip = sys.argv[1]
 
 # Create a datagram socket
 sock = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
 print("Socket created ...")
 # Bind to address and ip
 sock.bind((ip, port))
-print("Server up and listening")
+print("Server up and listening on : "+ip+" / "+str(port))
 # Listen for incoming datagrams
 while(True):
     bytesAddressPair = sock.recvfrom(bufferSize)
