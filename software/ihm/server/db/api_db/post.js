@@ -4,15 +4,19 @@ function devices(app,db) {
         if (!req.body.name) {
             errors.push("No name specified");
         }
+        if (!req.body.ip) {
+            errors.push("No ip specified");
+        }
         if (errors.length) {
             res.status(400).json({ "error": errors.join(",") });
             return;
         }
         var data = {
             name: req.body.name,
+            ip: req.body.ip,
         }
-        var sql = 'INSERT INTO devices (name) VALUES (?)'
-        var params = [data.name]
+        var sql = 'INSERT INTO devices (name,ip) VALUES (?,?)'
+        var params = [data.name,data.ip]
         db.run(sql, params, function (err, result) {
             if (err) {
                 res.status(400).json({ "error": err.message })
@@ -34,10 +38,7 @@ function functions(app,db) {
             errors.push("No name specified");
         }
         if (!req.body.device) {
-            errors.push("No name specified");
-        }
-        if (!req.body.cmd) {
-            errors.push("No name specified");
+            errors.push("No device specified");
         }
         if (errors.length) {
             res.status(400).json({ "error": errors.join(",") });
@@ -46,10 +47,9 @@ function functions(app,db) {
         var data = {
             name: req.body.name,
             device: req.body.device,
-            cmd: req.body.cmd,
         }
-        var sql = 'INSERT INTO functions (name,device,cmd) VALUES (?,?,?)'
-        var params = [data.name,data.device,data.cmd]
+        var sql = 'INSERT INTO functions (name,device) VALUES (?,?)'
+        var params = [data.name,data.device]
         db.run(sql, params, function (err, result) {
             if (err) {
                 res.status(400).json({ "error": err.message })

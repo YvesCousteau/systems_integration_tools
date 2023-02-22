@@ -11,7 +11,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Navbar/>}>
               <Route index element={<Devices/>} />
-              <Route path="functions/:id?" element={<Functions />} />
+              <Route path="device/:name" element={<Functions />} />
               <Route path="*" element={<NoPage />} />
             </Route>
           </Routes>
