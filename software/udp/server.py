@@ -1,7 +1,8 @@
 import socket
 import sys
 
-localIP = "127.0.0.1"
+
+localIP = "192.168.1.23"
 localPort = 20001
 bufferSize = 1024
 msgFromServer = sys.argv[1]

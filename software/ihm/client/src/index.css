@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Button */
+.btn {
+    @apply font-semibold py-1 px-4 rounded-[12px] shadow-md;
+}
+
+.btn-classic {
+    @apply bg-gray-800 text-white;
+}
+.btn-classic:hover {
+    @apply bg-gray-900;
+}
+
+.btn-classic:active {
+    @apply bg-black;
+}
+
+
+.btn-primary {
+    @apply bg-gray-700 text-white;
+}
+
+.btn-primary:hover {
+    @apply bg-gray-900;
+}
+
+.btn-primary:active {
+    @apply bg-black;
+}
+
+.btn-secondary {
+    @apply bg-gray-900 text-white border-white border-2;
+}
+
+.btn-secondary:hover {
+    @apply bg-gray-900;
+}
+
+.btn-secondary:active {
+    @apply bg-black;
+}
+
+.btn-close {
+    @apply bg-red-700 text-white;
+}
+.btn-close:hover {
+    @apply bg-red-800;
+}
+.btn-close:active {
+    @apply bg-red-900;
+}
+
+.btn-open {
+    @apply bg-green-700 text-white;
+}
+
+.btn-open:hover {
+    @apply bg-green-800;
+}
+
+.btn-open:active {
+    @apply bg-green-900;
+}
+
+.btn-open:disabled {
+    @apply bg-green-900;
+}
+
+
+/* color */
+.text-classic {
+    @apply font-semibold text-lg text-gray-800;
+}
+
+.text-classic-big {
+    @apply text-gray-800 font-bold text-2xl;
+}
