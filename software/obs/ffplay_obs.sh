@@ -9,4 +9,8 @@ trap - INT
 sleep 1
 echo "END."
 
-# make startup application obs-studio --startvirtualcam
+# -- INFO ---
+# install obs-studio / v4l2loopback-dkms
+# modprobe v4l2loopback
+# startup application obs-studio --startvirtualcam
+# startup application this script
