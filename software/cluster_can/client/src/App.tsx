@@ -28,7 +28,7 @@ function App() {
   return (
     <div className="bg-black shadow-md min-h-screen grid grid-cols-1 content-center">
       <img src={logo}  className="relative"/>
-      <div className="absolute right-1/2 left-1/2 bottom-1/2 -ml-9 sm:-ml-14 md:-ml-[75px] lg:-ml-[85px]">
+      <div className="absolute right-1/2 left-1/2 bottom-1/2 -ml-2 sm:-ml-4 md:-ml-6 lg:-ml-8">
         <p className="w-32 text-2xl sm:text-4xl md:text-5xl lg:text-6xl text-white pb-4 sm:pb-8 md:pb-8 lg:pb-8">
           {messages}
         </p>
