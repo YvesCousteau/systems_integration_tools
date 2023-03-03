@@ -21,21 +21,23 @@ def connect(sid, environ):
 
 @sio.on('speed')
 def speedOn(sid, data):
-    speed = queue.get()
+    # speed = queue.get()
+    global speed
     print('speed ', speed)
     sio.emit('timer', speed)
 
 @sio.event
 def disconnect(sid):
     print('disconnect ', sid)
-
+# -------------------------------------------------------------------------------------------------------
 def test():
-    speed = 10
+    global speed
+    speed = 0
     while True:
         time.sleep(0.3)
         speed = speed + 1
-        queue.put(speed)
-
+        # queue.put(speed)
+# -------------------------------------------------------------------------------------------------------
 def canFct():
     led = 22
     GPIO.setmode(GPIO.BCM)
@@ -87,8 +89,8 @@ def can_rx_task():
 				s +=  '{0:x} '.format(message.data[i])
 			temperature = message.data[3] - 40			#Convert data into temperature in degree C
 			print('\r {}  Coolant temp = {} degree C  '.format(c+s,temperature))
-            
+# -------------------------------------------------------------------------------------------------------       
 if __name__ == '__main__':
-    threading.Thread(target=canFct).start()
+    threading.Thread(target=test).start()
     eventlet.wsgi.server(eventlet.listen(('192.168.5.40', 6001)), app)
 
