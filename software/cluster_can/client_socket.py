@@ -6,14 +6,14 @@ import queue
 import RPi.GPIO as GPIO
 import can
 import os
+import serial
 
 sio = socketio.Server(cors_allowed_origins='*')
 app = socketio.WSGIApp(sio, static_files={
     '/': {'content_type': 'text/html', 'filename': 'index.html'}
 })
 
-queue = queue.Queue()
-
+speed = 0
 
 @sio.event
 def connect(sid, environ):
@@ -22,21 +22,30 @@ def connect(sid, environ):
 @sio.on('speed')
 def speedOn(sid, data):
     # speed = queue.get()
-    global speed
-    print('speed ', speed)
-    sio.emit('timer', speed)
+    print('speed ', speed.decode("utf-8") )
+    sio.emit('timer', speed.decode("utf-8"))
 
 @sio.event
 def disconnect(sid):
     print('disconnect ', sid)
+
+
 # -------------------------------------------------------------------------------------------------------
-def test():
+def uart():
+    ser = serial.Serial(
+        port='/dev/ttyUSB0',
+        baudrate = 115200,
+        parity=serial.PARITY_NONE,
+        stopbits=serial.STOPBITS_ONE,
+        bytesize=serial.EIGHTBITS,
+        timeout=0
+    )
     global speed
     speed = 0
+   
     while True:
-        time.sleep(0.3)
-        speed = speed + 1
-        # queue.put(speed)
+        speed = ser.readline()
+        time.sleep(2)
 # -------------------------------------------------------------------------------------------------------
 def canFct():
     led = 22
@@ -91,6 +100,6 @@ def can_rx_task():
 			print('\r {}  Coolant temp = {} degree C  '.format(c+s,temperature))
 # -------------------------------------------------------------------------------------------------------       
 if __name__ == '__main__':
-    threading.Thread(target=test).start()
-    eventlet.wsgi.server(eventlet.listen(('192.168.5.40', 6001)), app)
+    threading.Thread(target=uart).start()
+    eventlet.wsgi.server(eventlet.listen(('192.168.1.175', 6001)), app)
 
