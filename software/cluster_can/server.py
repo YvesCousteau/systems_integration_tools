@@ -4,7 +4,7 @@ import os
 # import Pi.GPIO as GPIO
 # import can
 
-sio = socketio.Server(cors_allowed_origins='*', logger=True, engineio_logger=True)
+sio = socketio.Server(cors_allowed_origins='*', logger=False, engineio_logger=False)
 app = socketio.WSGIApp(sio, static_files={
     '/': {'content_type': 'text/html', 'filename': 'index.html'}
 })
@@ -38,6 +38,14 @@ def uart():
         speed = ser.readline()
         sio.emit("speed::update", speed, room="speed")
         sio.sleep(1)
+
+def test():
+    speed = 0
+   
+    while True:
+        speed += 1
+        sio.emit("speed::update", speed, room="speed")
+        sio.sleep(0.05)
 
 # -------------------------------------------------------------------------------------------------------
 # def canFct():
@@ -93,6 +101,6 @@ def uart():
 # 			print('\r {}  Coolant temp = {} degree C  '.format(c+s,temperature))
 # -------------------------------------------------------------------------------------------------------       
 if __name__ == '__main__':
-    sio.start_background_task(uart)
+    sio.start_background_task(test)
     eventlet.wsgi.server(eventlet.listen(("", 6001)), app)
 
