@@ -4,7 +4,7 @@
 
 ### Run the server
 With `pyenv` :
-bash```
+```
 $ pyenv install
 $ pyenv run python server.py
 ```
