@@ -37,7 +37,8 @@ def uart():
     while True:
         speed = ser.readline()
         sio.emit("speed::update", speed, room="speed")
-        sio.sleep(1)
+        ser.flush()
+        # sio.sleep(1)
 
 def test():
     speed = 0
@@ -101,6 +102,6 @@ def test():
 # 			print('\r {}  Coolant temp = {} degree C  '.format(c+s,temperature))
 # -------------------------------------------------------------------------------------------------------       
 if __name__ == '__main__':
-    sio.start_background_task(test)
+    sio.start_background_task(uart)
     eventlet.wsgi.server(eventlet.listen(("", 6001)), app)
 
