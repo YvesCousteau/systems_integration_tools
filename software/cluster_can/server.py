@@ -23,10 +23,19 @@ def disconnect(sid):
     print('disconnect ', sid)
 
 # -------------------------------------------------------------------------------------------------------
-def test():
+def uart():
+    ser = serial.Serial(
+        port='/dev/ttyUSB0',
+        baudrate = 115200,
+        parity=serial.PARITY_NONE,
+        stopbits=serial.STOPBITS_ONE,
+        bytesize=serial.EIGHTBITS,
+        timeout=0
+    )
     speed = 0
+   
     while True:
-        speed = speed + 1
+        speed = ser.readline()
         sio.emit("speed::update", speed, room="speed")
         sio.sleep(1)
 
@@ -72,18 +81,18 @@ def test():
 #         os.system("sudo /sbin/ip link set can0 down")
 #         print('\n\rKeyboard interrtupt')
 
-def can_rx_task():
-	while True:
-		message = bus.recv()
-		if message.arbitration_id == PID_REPLY and message.data[2] == ENGINE_COOLANT_TEMP:
-			c = '{0:f} {1:x} {2:x} '.format(message.timestamp, message.arbitration_id, message.dlc)
-			s=''
-			for i in range(message.dlc ):
-				s +=  '{0:x} '.format(message.data[i])
-			temperature = message.data[3] - 40			#Convert data into temperature in degree C
-			print('\r {}  Coolant temp = {} degree C  '.format(c+s,temperature))
+# def can_rx_task():
+# 	while True:
+# 		message = bus.recv()
+# 		if message.arbitration_id == PID_REPLY and message.data[2] == ENGINE_COOLANT_TEMP:
+# 			c = '{0:f} {1:x} {2:x} '.format(message.timestamp, message.arbitration_id, message.dlc)
+# 			s=''
+# 			for i in range(message.dlc ):
+# 				s +=  '{0:x} '.format(message.data[i])
+# 			temperature = message.data[3] - 40			#Convert data into temperature in degree C
+# 			print('\r {}  Coolant temp = {} degree C  '.format(c+s,temperature))
 # -------------------------------------------------------------------------------------------------------       
 if __name__ == '__main__':
-    sio.start_background_task(test)
+    sio.start_background_task(uart)
     eventlet.wsgi.server(eventlet.listen(("", 6001)), app)
 
