@@ -24,7 +24,7 @@ Python server
 + @python3 /home/pi/systems_integration_tools/software/webSocketIO_Local/server.py &
 React client
 + @npm start --prefix /home/pi/systems_integration_tools/software/webSocketIO_Local/client_JS &
-Chromium FullScreen
+\n Chromium FullScreen \n
 + @xset s off
 + @xset -dpms
 + @xset s noblank
