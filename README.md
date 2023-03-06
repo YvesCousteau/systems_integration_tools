@@ -19,12 +19,12 @@ sudo nano /etc/xdg/lxsession/LXDE-pi/autostart
 Initialize
 + @lxpanel --profile LXDE-pi
 + @pcmanfm --desktop --profile LXDE-pi
-+ @xscreensaver -no-splash
++ @xscreensaver -no-splash<br>
 Python server
-+ @python3 /home/pi/systems_integration_tools/software/webSocketIO_Local/server.py &
++ @python3 /home/pi/systems_integration_tools/software/webSocketIO_Local/server.py &<br>
 React client
-+ @npm start --prefix /home/pi/systems_integration_tools/software/webSocketIO_Local/client_JS &
-\n Chromium FullScreen \n
++ @npm start --prefix /home/pi/systems_integration_tools/software/webSocketIO_Local/client_JS &<br>
+Chromium FullScreen
 + @xset s off
 + @xset -dpms
 + @xset s noblank
