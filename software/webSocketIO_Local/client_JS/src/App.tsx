@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import * as io from "socket.io-client";
 import logo  from "./Cluster_Basic.png";
 
-const socket = io.connect('http://192.168.5.33:6001');
+const socket = io.connect('http://localhost:6001');
 
 function App() {
   const [messages, setMessages] = useState(0)

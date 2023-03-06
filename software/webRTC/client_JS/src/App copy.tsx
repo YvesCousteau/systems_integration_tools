@@ -32,8 +32,8 @@ function App() {
   return (
     <div className="bg-black shadow-md min-h-screen grid grid-cols-1 content-center">
       <img src={logo} className="relative"/>
-      <div className="absolute inset-x-1/2 bottom-1/2 pb-16">
-        <p className="text-8xl text-white flex justify-center">
+      <div className="absolute inset-x-1/2 bottom-1/2 pb-10">
+        <p className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl text-white flex justify-center">
           {messages}
         </p>
       </div>
