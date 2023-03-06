@@ -25,12 +25,12 @@ nvm install 16
 ## Setup a specific Resolution
 
 ```
-sudo nano /boot/config.txt
+crontab -e
 ```
 
-+ display_rotate=1 # Rotate the screen 90 degrees
-  
-+ hdmi_cvt X Y 60 # Set the resolution to 1216x192
++ @reboot sleep 20;/home/pi/systems_integration_tools/software/pi_resolution/resolution.sh
+
++ @reboot sleep 22;/home/pi/systems_integration_tools/software/pi_resolution/resolution.sh
 
 ---
 
