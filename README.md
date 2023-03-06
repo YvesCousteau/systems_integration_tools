@@ -16,15 +16,15 @@ cd systems_integration_tools/software/weSocketIO_Local/client_JS/
 npm i
 sudo nano /etc/xdg/lxsession/LXDE-pi/autostart
 ```
-Initialize
+**Initialize**
 + @lxpanel --profile LXDE-pi
 + @pcmanfm --desktop --profile LXDE-pi
 + @xscreensaver -no-splash<br>
-Python server
+**Python server**
 + @python3 /home/pi/systems_integration_tools/software/webSocketIO_Local/server.py &<br>
 React client
 + @npm start --prefix /home/pi/systems_integration_tools/software/webSocketIO_Local/client_JS &<br>
-Chromium FullScreen
+**Chromium FullScreen**
 + @xset s off
 + @xset -dpms
 + @xset s noblank
