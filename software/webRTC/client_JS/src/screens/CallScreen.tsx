@@ -7,16 +7,15 @@ function CallScreen() {
     const params = useParams();
     const localUsername = params.username;
     const roomName = params.room;
-    const localVideoRef = useRef(null);
-    const remoteVideoRef = useRef(null);
+    const localVideoRef = useRef<HTMLVideoElement>(null);
+    const remoteVideoRef = useRef<HTMLVideoElement>(null);
 
     const socket = socketio("https://signaling-server-flask.herokuapp.com/", {
         autoConnect: false,
     });
+    let pc:any; // For RTCPeerConnection Object
 
-    let pc; // For RTCPeerConnection Object
-
-    const sendData = (data) => {
+    const sendData = (data:any) => {
         socket.emit("data", {
         username: localUsername,
         room: roomName,
@@ -30,16 +29,14 @@ function CallScreen() {
             video: { height: 350, width: 350 },
         }).then((stream) => {
             console.log("Local Stream found");
-            if (localVideoRef.current) {
-                localVideoRef.current.srcObject = stream;
-            }
+            if (localVideoRef.current) localVideoRef.current.srcObject = stream;
             socket.connect();
             socket.emit("join", { username: localUsername, room: roomName });
         }).catch((error) => {
             console.error("Stream not found: ", error);
         });
     };
-    const onIceCandidate = (event) => {
+    const onIceCandidate = (event:any) => {
         if (event.candidate) {
             console.log("Sending ICE candidate");
             sendData({
@@ -49,9 +46,9 @@ function CallScreen() {
         }
     };
     
-    const onTrack = (event) => {
+    const onTrack = (event:any) => {
         console.log("Adding remote track");
-        remoteVideoRef.current.srcObject = event.streams[0];
+        if (remoteVideoRef.current) remoteVideoRef.current.srcObject = event.streams[0];
     };
     
     const createPeerConnection = () => {
@@ -59,9 +56,13 @@ function CallScreen() {
             pc = new RTCPeerConnection({});
             pc.onicecandidate = onIceCandidate;
             pc.ontrack = onTrack;
-            const localStream = localVideoRef.current.srcObject;
-            for (const track of localStream.getTracks()) {
-                pc.addTrack(track, localStream);
+            if (localVideoRef.current) {
+                const localStream:any = localVideoRef.current.srcObject;
+                if (localStream) {
+                    for (const track of localStream.getTracks()) {
+                        pc.addTrack(track, localStream);
+                    }
+                }
             }
             console.log("PeerConnection created");
         } catch (error) {
@@ -69,7 +70,7 @@ function CallScreen() {
         }
     };
 
-    const setAndSendLocalDescription = (sessionDescription) => {
+    const setAndSendLocalDescription = (sessionDescription:any) => {
         pc.setLocalDescription(sessionDescription);
         console.log("Local description set");
         sendData(sessionDescription);
@@ -77,18 +78,18 @@ function CallScreen() {
     
     const sendOffer = () => {
         console.log("Sending offer");
-        pc.createOffer().then(setAndSendLocalDescription, (error) => {
+        pc.createOffer().then(setAndSendLocalDescription, (error:any) => {
             console.error("Send offer failed: ", error);
         });
     };
     
     const sendAnswer = () => {
         console.log("Sending answer");
-        pc.createAnswer().then(setAndSendLocalDescription, (error) => {
+        pc.createAnswer().then(setAndSendLocalDescription, (error:any) => {
             console.error("Send answer failed: ", error);
         });
     };
-    const signalingDataHandler = (data) => {
+    const signalingDataHandler = (data:any) => {
         if (data.type === "offer") {
             createPeerConnection();
             pc.setRemoteDescription(new RTCSessionDescription(data));

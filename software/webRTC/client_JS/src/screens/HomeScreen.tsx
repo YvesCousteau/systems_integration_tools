@@ -8,20 +8,20 @@ function HomeScreen() {
 
   return (
     <form method="post" action="">
-      <label for="username">Username</label>
+      <label htmlFor="username">Username</label>
 
       <input
         value={username}
         title="username"
-        onInput={(e) => setUsername(e.target.value)}
+        onInput={(e:any) => setUsername(e.target.value)}
       />
 
-      <label for="room">Room</label>
+      <label htmlFor="room">Room</label>
 
       <input
         value={room}
         title="room"
-        onInput={(e) => setRoom(e.target.value)}
+        onInput={(e:any) => setRoom(e.target.value)}
       />
       <Link to={`/call/${username}/${room}`}>
         <input type="submit" name="submit" value="Join Room" />
