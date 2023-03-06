@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import * as io from "socket.io-client";
 import logo  from "./Cluster_Basic.png";
 
-const socket = io.connect('http://192.168.1.23:6001');
+const socket = io.connect('http://192.168.5.33:6001');
 
 function App() {
   const [messages, setMessages] = useState(0)
@@ -32,8 +32,8 @@ function App() {
   return (
     <div className="bg-black shadow-md min-h-screen grid grid-cols-1 content-center">
       <img src={logo} className="relative"/>
-      <div className="absolute right-1/2 left-1/2 bottom-1/2 -ml-2 sm:-ml-4 md:-ml-6 lg:-ml-8">
-        <p className="w-32 text-2xl sm:text-4xl md:text-5xl lg:text-6xl text-white pb-4 sm:pb-8 md:pb-8 lg:pb-8">
+      <div className="absolute inset-x-1/2 bottom-1/2 pb-10">
+        <p className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl text-white flex justify-center">
           {messages}
         </p>
       </div>
@@ -45,8 +45,4 @@ function App() {
   );
 }
 
-// function subscribeToTimer(cb: any) {
-//   socket.on('timer', cb);
-//   socket.emit('speed', 1);
-// }
 export default App;
