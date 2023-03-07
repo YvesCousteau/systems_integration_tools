@@ -3,9 +3,9 @@ import ctypes as ct
 import weakref
 
 SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
-print(SCRIPT_DIR)
+
 _lib = ct.CDLL(os.path.join(SCRIPT_DIR, 'libs', 'brightness.so'))
-print(_lib)
+
 class BrightnessLayer(ct.Structure):
   _fields_ = [
     ('layer', ct.c_int32),
