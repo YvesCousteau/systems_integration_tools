@@ -3,7 +3,7 @@
 
 import time
 import os
-import picamera
+# import picamera
 from omxplayer.player import OMXPlayer
 
 from mqttdaemon import MqttUniqueValue
@@ -114,20 +114,20 @@ class EMirror(Device):
         self.play_video(value)
       return
 
-  def start_camera(self):
-    self.stop_camera()
-    self.camera = picamera.PiCamera()
-    self.camera.rotation = 90
-    self.camera.vflip = True
-    self.camera.hflip = False
-    self.camera.crop = self.cam_crop
-    self.camera.start_preview()
+  # def start_camera(self):
+  #   self.stop_camera()
+  #   self.camera = picamera.PiCamera()
+  #   self.camera.rotation = 90
+  #   self.camera.vflip = True
+  #   self.camera.hflip = False
+  #   self.camera.crop = self.cam_crop
+  #   self.camera.start_preview()
 
-  def stop_camera(self):
-    if self.camera != None:
-      self.debug('Closing camera')
-      self.camera.close()
-    self.camera = None
+  # def stop_camera(self):
+  #   if self.camera != None:
+  #     self.debug('Closing camera')
+  #     self.camera.close()
+  #   self.camera = None
   
   def play_video(self, video):
     self.stop_video()
