@@ -5,7 +5,7 @@ import logo  from "./Cluster_Basic.png";
 const socket = io.connect('http://192.168.5.33:6001');
 
 function App() {
-  const [messages, setMessages] = useState(0)
+  const [messages, setMessages] = useState(10)
   const [isConnected, setIsConnected] = useState(socket.connected);
 
   useEffect(() => {
@@ -33,7 +33,7 @@ function App() {
     <div className="bg-black shadow-md min-h-screen grid grid-cols-1 content-center">
       <img src={logo} className="relative"/>
       <div className="absolute inset-x-1/2 bottom-1/2 pb-16">
-        <p className="text-8xl text-white flex justify-center">
+        <p className="text-8xl flex justify-center text-cyan-100 text-cluster font-bold">
           {messages}
         </p>
       </div>

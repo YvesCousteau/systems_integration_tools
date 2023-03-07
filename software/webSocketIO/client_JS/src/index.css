@@ -81,3 +81,7 @@
 .text-classic-big {
   @apply text-gray-800 font-bold text-2xl;
 }
+
+.text-cluster {
+  text-shadow: #44A1B3 1px 1px 10px;
+}
