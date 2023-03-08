@@ -1,4 +1,4 @@
-#! /bin/Bash
+#! /bin/bash
 # Brightness Change for Linux with xrandr (X11)
 if [[ $1 -gt 1.0 ]] || [[$1 -lt 0.1 ]]
 then

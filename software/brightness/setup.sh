@@ -1,4 +1,4 @@
-#! /bin/Bash
+#! /bin/bash
 #
 # Disable Wayland
 # $sudo nano /etc/gdm3/custom.conf
