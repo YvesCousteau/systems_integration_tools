@@ -21,6 +21,22 @@ then
 fi
 echo "Brightness change for $1% on $screen"
 
-value=$(bc -l <<< 'scale=2;'$1'/100')
 
-xrandr --output $screen --brightness $value
+currentbrightness=$(xrandr --verbose | grep -i brightness | cut -f2 -d ' ' | head -n1)
+currentbrightness=$(bc -l <<< 'scale=2;'$currentbrightness'*100')
+currentbrightness=$( printf "%.0f" $currentbrightness )
+echo "$currentbrightness"
+
+while [ $1 != $currentbrightness ]
+do
+    echo "From $currentbrightness To $1"
+    if [[ $1 -gt $currentbrightness ]]
+    then
+        currentbrightness=$(($currentbrightness+1))
+    else
+        currentbrightness=$(($currentbrightness-1))
+    fi
+
+    value=$(bc -l <<< 'scale=2;'$currentbrightness'/100')
+    xrandr --output $screen --brightness $value
+done
