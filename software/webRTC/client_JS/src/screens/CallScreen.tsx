@@ -26,7 +26,7 @@ function CallScreen() {
     const startConnection = () => {
         navigator.mediaDevices.getUserMedia({
             audio: false,
-            video: { height: 350, width: 350 },
+            video: { height: 1920, width: 1080 },
         }).then((stream) => {
             console.log("Local Stream found");
             if (localVideoRef.current) localVideoRef.current.srcObject = stream;
@@ -36,6 +36,7 @@ function CallScreen() {
             console.error("Stream not found: ", error);
         });
     };
+    
     const onIceCandidate = (event:any) => {
         if (event.candidate) {
             console.log("Sending ICE candidate");
