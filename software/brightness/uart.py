@@ -13,11 +13,12 @@ def uart():
     )
    
     while True:
-        lux = ser.readline().decode().rstrip()
+        # lux = ser.readline().decode().rstrip()
+        lux = ser.readline()
         print(lux)
-        subprocess.run(["brightness.sh", lux])
+        # subprocess.run(["brightness.sh", lux])
         ser.flush()
-        time.sleep(10)
+        time.sleep(3)
 
 if __name__ == '__main__':
     uart()
