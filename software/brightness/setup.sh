@@ -5,6 +5,9 @@
 #
 # Restart GDM3 to process changes
 # sudo systemctl restart gdm3
-
-chmod +x brightness.sh
-sudo cp brightness.sh /usr/local/bin
+#
+# If you have to give you the right to use TTYUSB : sudo usermod -a -G dialout $USER
+#
+# Create a command
+# chmod +x brightness.sh
+# sudo cp brightness.sh /usr/local/bin
