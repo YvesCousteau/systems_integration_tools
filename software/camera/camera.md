@@ -9,14 +9,14 @@ Change the setting value: `v4l2-ctl -d /dev/video0 --set-ctrl=exposure_auto=1`.
 ---
 To create a virtual camera we have to create a virtual device before: `sudo modprobe v4l2loopback video_nr=X`.
 
-Create a virtual Cam used by multi Soft: `sudo gst-launch-1.0 v4l2src device=/dev/video1 ! v4l2sink device=/dev/videoX`
+Create a virtual Cam used by multi Soft: `sudo gst-launch-1.0 v4l2src device=/dev/video1 ! videoconvert ! videoscale ! video/x-raw,width=800,height=600,framerate=30/1 ! v4l2sink device=/dev/videoX`
 + source: `/dev/video1`
 + link: `/dev/videoX`
 ---
 For pi we use script but for Linux we use µStreamer
 ---
 Exemple of µStreamer:
-+ `sudo ustreamer --device=/dev/video0 --host=0.0.0.0 --port=80 `
++ `sudo ustreamer --device=/dev/videoX --host=0.0.0.0 --port=80 --resolution=800x600`
 + `--format`: Available: YUYV, UYVY, RGB565, RGB24, JPEG; default: YUYV.
 + `--resolution`: Initial image resolution. Default: 640x480.
 + `--desired-fps`: Desired FPS. Default: maximum possible.
