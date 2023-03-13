@@ -82,14 +82,17 @@ class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
     allow_reuse_address = True
     daemon_threads = True
 
-    picam2 = Picamera2()
-    picam2.configure(picam2.create_video_configuration(main={"size": (640, 480)}))
-    output = StreamingOutput()
-    picam2.start_recording(MJPEGEncoder(), FileOutput(output))
 
-    try:
-        address = ('', 8000)
-        server = StreamingServer(address, StreamingHandler)
-        server.serve_forever()
-    finally:
-        picam2.stop_recording()
+# Trick Picamera Begin
+picam2 = Picamera2()
+picam2.configure(picam2.create_video_configuration(main={"size": (640, 480)}))
+output = StreamingOutput()
+picam2.start_recording(MJPEGEncoder(), FileOutput(output))
+# Trick Picamera End
+
+try:
+    address = ('', 8000)
+    server = StreamingServer(address, StreamingHandler)
+    server.serve_forever()
+finally:
+    picam2.stop_recording()
