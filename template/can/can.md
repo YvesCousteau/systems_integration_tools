@@ -66,3 +66,6 @@ sudo pip3 install python-can
 + dtoverlay=mcp2515-can1,oscillator=16000000,interrupt=25
 + dtoverlay=mcp2515-can0,oscillator=16000000,interrupt=23
 `sudo reboot`
+---
+## Linux 
+Install Driver: https://www.peak-system.com/Drivers.523.0.html?&L=1&gclid=Cj0KCQjwtsCgBhDEARIsAE7RYh22RDKYjfT7nJpCZfoU5HGBl7nSwPSkweqx5PXC1TDpr0IJGxXrLsIaAhQAEALw_wcB
