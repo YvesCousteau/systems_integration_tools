@@ -22,6 +22,17 @@ def disconnect(sid):
     sio.leave_room(sid, "speed")
     print('disconnect ', sid)
 
+        
+# -------------------------------------------------------------------------------------------------------
+
+def test():
+    speed = 0
+   
+    while True:
+        speed += 1
+        sio.emit("speed::update", speed, room="speed")
+        sio.sleep(0.05)
+
 # -------------------------------------------------------------------------------------------------------
 def uart():
     ser = serial.Serial(
@@ -39,14 +50,6 @@ def uart():
         sio.emit("speed::update", speed, room="speed")
         ser.flush()
         # sio.sleep(1)
-
-def test():
-    speed = 0
-   
-    while True:
-        speed += 1
-        sio.emit("speed::update", speed, room="speed")
-        sio.sleep(0.05)
 
 # -------------------------------------------------------------------------------------------------------
 def canFct():
