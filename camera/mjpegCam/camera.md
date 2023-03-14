@@ -16,6 +16,8 @@ Create a virtual Cam used by multi Soft: `sudo gst-launch-1.0 v4l2src device=/de
 + link: `/dev/videoX`
 + resolution and frame: `video/x-raw,width=800,height=600,framerate=30/1`
 + crop: `videocrop top=42 left=1 right=4 bottom=0`
+
+**Warning : If you want Zoom, you have to find a crop and adapt the resolution to keep the same legacy resolution with crop**
 ---
 # Exception Fort Raspberry Pi
 For pi we use script but for Linux we use µStreamer
@@ -40,3 +42,4 @@ To stream mjpeg over http:
 + `--color-effect`: Set color effect. Default: no change.
 + `--flip-vertical`: Set vertical flip. Default: no change.
 + `--flip-horizontal`: Set horizontal flip. Default: no change.
++ `--fake-resolution`: Override image resolution for the /state. Default: disabled.
